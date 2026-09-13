@@ -10,6 +10,10 @@ public class HomeController : Controller
     {
         return View();
     }
+    public IActionResult Recipes()
+    {
+        return View();
+    }
 
     public IActionResult Privacy()
     {
