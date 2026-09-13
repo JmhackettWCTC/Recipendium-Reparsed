@@ -1,0 +1,42 @@
+﻿@model Recipe
+
+
+
+@{
+    ViewData["Title"] = "Recipe Details";
+    String[] ingredients = Model.Ingredients.Split(",");
+    String[] instructions = Model.Instructions.Split("|");
+}
+
+
+<article>
+    <header>
+        <h2>@Model.Name</h2>
+        <p>Servings: @Model.Servings</p>
+        <p>Time: @Model.Time</p>
+    </header>
+    <p>@Model.LongDescription</p>
+    <section>
+        <div>
+            <h3>Ingredients</h3>
+            <ul>
+                @foreach (var ingredient in ingredients)
+                {
+                    <li>@ingredient</li>
+                }
+            </ul>
+           
+        </div>
+        <div>
+            <h3>Instructions</h3>
+            <ol>
+                @foreach (var instruction in instructions)
+                {
+                    <li>@instruction</li>
+                }
+            </ol>
+            
+        </div>
+    </section>
+</article>
+

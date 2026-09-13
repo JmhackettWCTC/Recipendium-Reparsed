@@ -1,10 +1,18 @@
-﻿@{
+﻿@model List<Recipe>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <ul>
+        @foreach (var recipe in Model)
+        {
+            <li>@recipe.Name / <a class="text-dark" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">details</a></li>
+        }
+    </ul>
+   
+    
 </div>
 <script src="https://jgrissom.github.io/dotnet-web-dev/week-04/homework-checks.js"></script>
 
