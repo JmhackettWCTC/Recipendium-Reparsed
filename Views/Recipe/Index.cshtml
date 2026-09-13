@@ -4,13 +4,25 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <ul>
+    <h1 class="display-4">Recipes</h1>
+    <div class="row">
+        
         @foreach (var recipe in Model)
         {
-            <li>@recipe.Name / <a class="text-dark" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">details</a></li>
+            <div class="card col" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@recipe.Name</h5>
+                    <div class="row">
+                        <h6 class="card-subtitle mb-2 text-body-secondary col">Servings: @recipe.Servings</h6>
+                        <h6 class="card-subtitle mb-2 text-body-secondary col">Time: @recipe.Time</h6>
+                    </div>
+                    <p class="card-text">@recipe.ShortDescription</p>
+                    <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">details</a>
+
+                </div>
+            </div>
         }
-    </ul>
+    </div>
    
     
 </div>
