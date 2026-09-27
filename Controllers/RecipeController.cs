@@ -23,8 +23,17 @@ public class RecipeController : Controller
         return View(recipe);
     }
 
+    [HttpGet]
     public IActionResult Create()
     {
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Recipe recipe)
+    {
+        recipe.Id = RecipeData.All.Any() ? RecipeData.All.Max(r => r.Id) + 1 : 1;
+        RecipeData.All.Add(recipe);
+        return RedirectToAction(nameof(Index));
     }
 }
