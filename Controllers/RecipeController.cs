@@ -10,7 +10,7 @@ public class RecipeController : Controller
     {
         return View(RecipeData.All);
     }
-    
+
     public IActionResult Details(int id)
     {
         var recipe = RecipeData.All.FirstOrDefault(t => t.Id == id);
@@ -21,5 +21,10 @@ public class RecipeController : Controller
         }
 
         return View(recipe);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
     }
 }
