@@ -32,6 +32,11 @@ public class RecipeController : Controller
     [HttpPost]
     public IActionResult Create(Recipe recipe)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(recipe);
+        }
+
         recipe.Id = RecipeData.All.Any() ? RecipeData.All.Max(r => r.Id) + 1 : 1;
         RecipeData.All.Add(recipe);
         return RedirectToAction(nameof(Index));
