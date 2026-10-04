@@ -1,19 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Recipendium_Reparsed.Data;
 using Recipendium_Reparsed.Models;
 
 namespace Recipendium_Reparsed.Controllers;
 
 public class RecipeController : Controller
 {
+    private readonly RecipeDbContext _context;
+
+    public RecipeController(RecipeDbContext context)
+    {
+        _context = context;
+    }
+
     // GET
     public IActionResult Index()
     {
-        return View(RecipeData.All);
+        return View(_context.Recipes.ToList());
     }
 
     public IActionResult Details(int id)
     {
-        var recipe = RecipeData.All.FirstOrDefault(t => t.Id == id);
+        var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
 
         if (recipe == null)
         {
@@ -37,8 +46,8 @@ public class RecipeController : Controller
             return View(recipe);
         }
 
-        recipe.Id = RecipeData.All.Any() ? RecipeData.All.Max(r => r.Id) + 1 : 1;
-        RecipeData.All.Add(recipe);
+        _context.Recipes.Add(recipe);
+        _context.SaveChanges();
         return RedirectToAction(nameof(Index));
     }
 }
