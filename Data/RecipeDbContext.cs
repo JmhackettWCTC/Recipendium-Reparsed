@@ -27,7 +27,9 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.Servings).HasColumnName("Servings")
                     .HasConversion((string v) => StringToIntConverter(v), (int v) => IntToStringConverter(v));
                 entity.Property(e => e.Image).HasColumnName("ImagePath");
-                entity.Ignore(e => e.Rating);
+                entity.Property(e => e.ShortDescription).HasColumnName("ShortDescription");
+                entity.Property(e => e.LongDescription).HasColumnName("LongDescription");
+                entity.Property(e => e.Rating).HasColumnName("Rating").HasDefaultValue(0);
             });
         }
 

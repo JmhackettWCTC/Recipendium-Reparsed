@@ -67,7 +67,7 @@ public class RecipeController : Controller
 
     // POST: /Recipe/Edit
     [HttpPost]
-    public IActionResult Edit(Recipe recipe)
+    public async Task<IActionResult> Edit(Recipe recipe)
     {
         if (!ModelState.IsValid)
         {
@@ -75,7 +75,7 @@ public class RecipeController : Controller
         }
 
         _context.Recipes.Update(recipe);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
@@ -95,7 +95,7 @@ public class RecipeController : Controller
 
     // POST: /Recipe/Delete
     [HttpPost]
-    public IActionResult Delete(Recipe recipe)
+    public async Task<IActionResult> Delete(Recipe recipe)
     {
         var existing = _context.Recipes.FirstOrDefault(t => t.Id == recipe.Id);
         if (existing == null)
@@ -104,7 +104,7 @@ public class RecipeController : Controller
         }
 
         _context.Recipes.Remove(existing);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 }
