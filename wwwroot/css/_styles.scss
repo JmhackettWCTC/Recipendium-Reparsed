@@ -1,0 +1,678 @@
+@import 'variables';
+
+// ==========================================
+// Global Styles — Modern Design System
+// ==========================================
+
+:root {
+    --color-dark: #{$color-dark};
+    --color-light: #{$color-light};
+    --color-main: #{$color-main};
+    --color-link: #{$color-link};
+    --color-background: #{$color-background};
+    --site-width: #{$site-width};
+}
+
+.site-width {
+    max-width: $site-width;
+    margin: 0 auto;
+    padding-left: $space-xl;
+    padding-right: $space-xl;
+
+    @media (max-width: $breakpoint-mobile) {
+        padding-left: $space-md;
+        padding-right: $space-md;
+    }
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: $color-text;
+    background-color: $color-background;
+    font-size: $font-size-base;
+    font-family: $font-family;
+    line-height: $line-height;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+article {
+    padding: $space-2xl $space-xl;
+    flex: 1;
+
+    @media (max-width: $breakpoint-mobile) {
+        padding: $space-xl $space-md;
+    }
+}
+
+section {
+    padding-bottom: $space-lg;
+}
+
+// ==========================================
+// Page Headers
+// ==========================================
+
+body > header {
+    background: linear-gradient(135deg, $color-dark 0%, $color-dark-soft 100%);
+    color: $color-light;
+    box-shadow: $shadow-header;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+/* Inner page headers (article headers) */
+article > header,
+main > header {
+    margin-bottom: $space-xl;
+    padding-bottom: $space-md;
+    border-bottom: 2px solid $color-border;
+}
+
+article > header h1,
+main > header h1 {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    color: $color-dark;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, $color-dark 0%, $color-main 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    @media (max-width: $breakpoint-mobile) {
+        font-size: $font-size-2xl;
+    }
+}
+
+article > header h2,
+main > header h2 {
+    font-size: $font-size-2xl;
+    font-weight: 600;
+    color: $color-dark;
+    margin-top: $space-sm;
+}
+
+.siteHeader {
+    padding: $space-md 0;
+    font-size: $font-size-3xl;
+}
+
+.site-logo {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: $space-md auto;
+
+    @media (max-width: $breakpoint-mobile) {
+        width: 200px;
+    }
+}
+
+.site-title {
+    color: $color-light;
+    text-decoration: none;
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    padding: $space-md 0;
+    display: inline-block;
+    letter-spacing: -0.02em;
+    transition: color $transition-fast;
+}
+
+.site-title:hover {
+    color: $color-main;
+}
+
+// ==========================================
+// Buttons — Modern Pill Style
+// ==========================================
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-sm;
+    padding: $space-sm $space-lg;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    font-family: $font-family;
+    color: $color-surface;
+    background: linear-gradient(135deg, $color-link 0%, $color-link-soft 100%);
+    border: none;
+    border-radius: $radius-xl;
+    text-decoration: none;
+    text-wrap: nowrap;
+    cursor: pointer;
+    box-shadow: $shadow-sm;
+    transition: all $transition-default;
+    white-space: nowrap;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+        background: linear-gradient(135deg, $color-main 0%, $color-main-soft 100%);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: $shadow-sm;
+    }
+}
+
+.btn-outline {
+    background: transparent;
+    color: $color-link;
+    border: 2px solid $color-link;
+
+    &:hover {
+        background: $color-link;
+        color: $color-surface;
+    }
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, $color-danger 0%, $color-danger-soft 100%);
+
+    &:hover {
+        background: linear-gradient(135deg, #c1121f 0%, $color-danger 100%);
+    }
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-sm;
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    text-decoration: none;
+    padding: $space-sm $space-md;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+    margin-bottom: $space-lg;
+
+    &:hover {
+        color: $color-link;
+        background: rgba($color-link, 0.08);
+    }
+}
+
+.remove-btn {
+    color: $color-danger;
+    display: inline-block;
+    font-weight: 500;
+    text-decoration: none;
+    padding: $space-xs $space-sm;
+    border-radius: $radius-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+        background: rgba($color-danger, 0.08);
+    }
+}
+
+// ==========================================
+// Typography
+// ==========================================
+
+p {
+    margin-bottom: $space-md;
+    color: $color-text;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.highlight {
+    background: linear-gradient(135deg, $color-main 0%, $color-main-soft 100%);
+    color: $color-light;
+    padding: $space-lg;
+    border-radius: $radius-md;
+    box-shadow: $shadow-sm;
+}
+
+strong {
+    display: block;
+    font-size: $font-size-lg;
+    font-weight: 600;
+}
+
+.large {
+    font-size: $font-size-2xl;
+    font-weight: 600;
+    padding: $space-md $space-lg 0;
+}
+
+em {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    font-style: normal;
+    margin-bottom: $space-sm;
+    color: $color-main;
+}
+
+// ==========================================
+// Lists
+// ==========================================
+
+ol, ul {
+    margin-left: $space-xl;
+    padding-left: $space-md;
+}
+
+.list > li {
+    margin: $space-md 0;
+    padding-left: $space-sm;
+}
+
+// ==========================================
+// Recipe List Item (legacy)
+// ==========================================
+
+.recipe-list {
+    background-color: $color-surface;
+    padding: $space-lg;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    box-shadow: $shadow-card;
+    margin: $space-md 0;
+    transition: all $transition-default;
+
+    &:hover {
+        box-shadow: $shadow-card-hover;
+        transform: translateY(-2px);
+    }
+}
+
+// ==========================================
+// Form Inputs — Modern Floating Style
+// ==========================================
+
+.form-group {
+    margin-bottom: $space-lg;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+select,
+textarea {
+    width: 100%;
+    padding: $space-md $space-lg;
+    font-size: $font-size-base;
+    font-family: $font-family;
+    color: $color-text;
+    background-color: $color-surface;
+    border: 2px solid $color-border;
+    border-radius: $radius-md;
+    margin-bottom: $space-md;
+    transition: all $transition-fast;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+
+    &:focus {
+        outline: none;
+        border-color: $color-link;
+        box-shadow: 0 0 0 3px rgba($color-link, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    &::placeholder {
+        color: $color-text-muted;
+        opacity: 0.7;
+    }
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a6e65' d='M6 8.825L.35 3.175l.7-.7L6 7.425l4.95-4.95.7.7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $space-md center;
+    padding-right: $space-2xl;
+    cursor: pointer;
+}
+
+textarea {
+    border-radius: $radius-md !important;
+    padding: $space-md $space-lg;
+    min-height: 100px;
+    resize: vertical;
+    display: block !important;
+}
+
+button[type="submit"],
+button:not([class]) {
+    padding: $space-md $space-xl;
+    font-size: $font-size-base;
+    font-weight: 600;
+    font-family: $font-family;
+    color: $color-surface;
+    background: linear-gradient(135deg, $color-link 0%, $color-link-soft 100%);
+    border: none;
+    border-radius: $radius-md;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: $space-md;
+    box-shadow: $shadow-sm;
+    transition: all $transition-default;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+        background: linear-gradient(135deg, $color-main 0%, $color-main-soft 100%);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: $shadow-sm;
+    }
+}
+
+header > div > input,
+select {
+    margin-bottom: $space-xl;
+}
+
+.selected {
+    background-color: $color-link;
+    color: $color-surface;
+}
+
+fieldset {
+    border: 2px solid $color-border;
+    border-radius: $radius-md;
+    padding: $space-lg;
+    margin: $space-lg 0;
+    background: rgba($color-surface, 0.5);
+}
+
+fieldset legend {
+    font-weight: 600;
+    color: $color-dark;
+    padding: 0 $space-sm;
+}
+
+// ==========================================
+// Error States
+// ==========================================
+
+.error {
+    color: $color-danger;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    margin-top: $space-xs;
+    display: block;
+}
+
+.errorText {
+    border-color: $color-danger !important;
+    box-shadow: 0 0 0 3px rgba($color-danger, 0.15) !important;
+}
+
+.menacingBtn {
+    background: linear-gradient(135deg, $color-danger 0%, $color-danger-soft 100%);
+    color: $color-surface;
+    border: none;
+    padding: $space-md $space-xl;
+    font-size: $font-size-base;
+    font-weight: 600;
+    font-family: $font-family;
+    border-radius: $radius-md;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: $space-md;
+    box-shadow: $shadow-sm;
+    transition: all $transition-default;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+        background: linear-gradient(135deg, #c1121f 0%, $color-danger 100%);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: $shadow-sm;
+    }
+
+    &:disabled {
+        background: $color-border;
+        color: $color-text-muted;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+    }
+}
+
+input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: $color-link;
+    cursor: pointer;
+}
+
+// ==========================================
+// Images
+// ==========================================
+
+figure > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius-md;
+}
+
+.header-image {
+    height: 400px;
+    border-radius: $radius-lg;
+    overflow: hidden;
+
+    @media (max-width: $breakpoint-mobile) {
+        height: 250px;
+    }
+}
+
+img.logo {
+    width: 150px;
+    height: auto;
+    display: block;
+    border-radius: $radius-circle;
+    margin: $space-md auto;
+    box-shadow: $shadow-md;
+}
+
+.fullCard {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+// ==========================================
+// Profile Images
+// ==========================================
+
+.pfp-large {
+    width: 300px;
+    height: 300px;
+    border-radius: $radius-circle;
+    display: block;
+    margin: $space-lg auto;
+    border: 4px solid $color-surface;
+    box-shadow: $shadow-lg;
+    object-fit: cover;
+
+    @media (max-width: $breakpoint-mobile) {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: $radius-circle;
+    margin: $space-md auto;
+    border: 3px solid $color-surface;
+    box-shadow: $shadow-md;
+    object-fit: cover;
+}
+
+// ==========================================
+// Footer — Modern Gradient
+// ==========================================
+
+footer {
+    background: linear-gradient(135deg, $color-dark 0%, $color-dark-soft 100%);
+    color: $color-light;
+    text-align: center;
+    padding: $space-xl 0;
+    margin-top: $space-2xl;
+    font-size: $font-size-sm;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.email {
+    color: $color-main;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color $transition-fast;
+
+    &:hover {
+        color: $color-main-soft;
+        text-decoration: underline;
+    }
+}
+
+// ==========================================
+// Utilities
+// ==========================================
+
+.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+// ==========================================
+// Star Rating
+// ==========================================
+
+.star-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: $space-xs;
+}
+
+.star-input input {
+    display: none;
+}
+
+.star-input label {
+    font-size: 1.75rem;
+    color: $color-border;
+    cursor: pointer;
+    transition: color $transition-fast;
+    padding: 0;
+}
+
+.star-input label:hover,
+.star-input label:hover ~ label,
+.star-input input:checked ~ label {
+    color: $color-star;
+}
+
+.stars {
+    display: flex;
+    flex-direction: row;
+    gap: $space-xs;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.star {
+    color: $color-border;
+}
+
+.filled {
+    color: $color-star;
+}
+
+// ==========================================
+// Floating Add Button
+// ==========================================
+
+.add-recipe-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $color-link 0%, $color-link-soft 100%);
+    color: $color-surface;
+    text-decoration: none;
+    width: 64px;
+    height: 64px;
+    border-radius: $radius-circle;
+    position: fixed;
+    bottom: $space-xl;
+    right: $space-xl;
+    z-index: 1000;
+    font-size: 2rem;
+    font-weight: 700;
+    box-shadow: $shadow-lg;
+    transition: all $transition-default;
+
+    &:hover {
+        transform: scale(1.1) translateY(-2px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, $color-main 0%, $color-main-soft 100%);
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+        bottom: $space-lg;
+        right: $space-lg;
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+}
+
+// ==========================================
+// Profile View Card
+// ==========================================
+
+.profile-view-card {
+    color: $color-main;
+    padding-bottom: $space-lg;
+}
+
+// ==========================================
+// Form Labels
+// ==========================================
+
+label {
+    display: block;
+    margin-bottom: $space-sm;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    color: $color-dark;
+    letter-spacing: 0.01em;
+}

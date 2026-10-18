@@ -1,0 +1,9 @@
+// Main SCSS entry point for Recipendium
+// Imports all partials in the correct order
+
+@import 'variables';
+@import 'styles';
+@import 'nav';
+@import 'flex';
+@import 'media';
+@import 'cards';

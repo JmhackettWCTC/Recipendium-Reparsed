@@ -1,0 +1,306 @@
+@import 'variables';
+
+// ==========================================
+// Card Grid Layout
+// ==========================================
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: $space-xl;
+    padding: $space-md 0;
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .cards {
+        grid-template-columns: 1fr;
+        gap: $space-lg;
+    }
+}
+
+// ==========================================
+// Recipe Card — Modern Elevated Design
+// ==========================================
+
+.card {
+    background-color: $color-surface;
+    border-radius: $radius-lg;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-card;
+    overflow: hidden;
+    transition: all $transition-slow;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        box-shadow: $shadow-card-hover;
+        transform: translateY(-4px);
+        border-color: rgba($color-main, 0.3);
+    }
+
+    &:active {
+        transform: translateY(-2px);
+    }
+}
+
+.img-card {
+    background-color: $color-surface;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    overflow: hidden;
+    border-radius: $radius-lg;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-card;
+    margin: 0 auto;
+    transition: all $transition-slow;
+
+    &:hover {
+        box-shadow: $shadow-card-hover;
+        transform: translateY(-4px);
+    }
+}
+
+.card__info {
+    padding: $space-lg;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: $space-sm;
+}
+
+.card__info > header {
+    color: $color-main;
+    border-bottom: none;
+    padding-bottom: $space-sm;
+    margin-bottom: $space-sm;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-md;
+    align-items: center;
+}
+
+.card__info > header h3 {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $color-dark;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.card__info > header p {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    background: rgba($color-main, 0.1);
+    padding: $space-xs $space-md;
+    border-radius: $radius-xl;
+    margin: 0;
+    font-weight: 500;
+}
+
+.card__info p {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    line-height: 1.5;
+    margin-bottom: $space-xs;
+}
+
+.card__info .static-row {
+    margin-top: auto;
+    padding-top: $space-md;
+    gap: $space-sm;
+    flex-wrap: wrap;
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .card {
+        border-radius: $radius-md;
+    }
+
+    .img-card {
+        border-radius: $radius-md;
+    }
+}
+
+.card-image-height {
+    height: 180px;
+}
+
+// ==========================================
+// Review Section
+// ==========================================
+
+.review-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: $space-lg;
+    padding: $space-lg 0;
+
+    @media (max-width: $breakpoint-mobile) {
+        grid-template-columns: 1fr;
+        gap: $space-md;
+    }
+}
+
+// ==========================================
+// Review Card
+// ==========================================
+
+.review-card {
+    padding: $space-lg;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    background-color: $color-surface;
+    box-shadow: $shadow-sm;
+    transition: all $transition-default;
+
+    &:hover {
+        box-shadow: $shadow-md;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+        width: 100%;
+    }
+}
+
+.review-card p {
+    font-size: $font-size-sm;
+    line-height: 1.6;
+    color: $color-text-muted;
+}
+
+.review-card .static-row {
+    display: flex;
+    gap: $space-md;
+    margin-bottom: $space-md;
+    flex-wrap: wrap;
+}
+
+// ==========================================
+// Category Grid
+// ==========================================
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: $space-xl;
+    padding: $space-xl 0;
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: $space-lg;
+        padding: $space-lg 0;
+    }
+}
+
+.category-card {
+    position: relative;
+    height: 220px;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-card;
+    text-decoration: none;
+    display: block;
+    transition: all $transition-slow;
+
+    &:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: $shadow-card-hover;
+    }
+
+    &:active {
+        transform: translateY(-2px) scale(1.01);
+    }
+}
+
+.category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform $transition-slow;
+}
+
+.category-card:hover img {
+    transform: scale(1.05);
+}
+
+.category-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background $transition-default;
+}
+
+.category-card:hover .category-card__overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.category-card__overlay h2 {
+    color: #fff;
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    padding: 0;
+    margin: 0;
+}
+
+// ==========================================
+// Cards Wrapper (animations)
+// ==========================================
+
+.cards-wrapper {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    overflow: hidden;
+    transition: grid-template-rows $transition-slow, opacity $transition-default;
+}
+
+.cards-wrapper.hidden {
+    grid-template-rows: 0fr;
+    opacity: 0;
+}
+
+.cards-wrapper > div {
+    min-height: 0;
+}
+
+// ==========================================
+// Favorite Icon
+// ==========================================
+
+.favoriteIcon {
+    position: absolute;
+    top: $space-md;
+    right: $space-md;
+    width: 40px;
+    height: 40px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($color-surface, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: $radius-circle;
+    box-shadow: $shadow-sm;
+    transition: all $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.15);
+        box-shadow: $shadow-md;
+        background: $color-surface;
+    }
+}
+
+.favoriteIcon.favorited {
+    background: rgba($color-danger, 0.15);
+}

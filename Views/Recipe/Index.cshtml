@@ -1,32 +1,33 @@
-﻿@model List<Recipe>
+@model List<Recipe>
 @{
     ViewData["Title"] = "Recipes";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Recipes</h1>
-    <div class="row">
-        
-        @foreach (var recipe in Model)
-        {
-            <div class="card col" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@recipe.Name</h5>
-                    <div class="row">
-                        <h6 class="card-subtitle mb-2 text-body-secondary col">Servings: @recipe.Servings</h6>
-                        <h6 class="card-subtitle mb-2 text-body-secondary col">Time: @recipe.Time</h6>
-                    </div>
-                    <p class="card-text">@recipe.ShortDescription</p>
-                    <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">details</a>
-                    <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id">edit</a>
-                    <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id">delete</a>
+<header>
+    <h1>Recipes</h1>
+</header>
 
+<div class="cards">
+    @foreach (var recipe in Model)
+    {
+        <div class="card">
+            <div class="card__info">
+                <header class="static-row">
+                    <div class="flex-1"><h3>@recipe.Name</h3></div>
+                    <div class="flex-1">
+                        <p>@recipe.Category</p>
+                    </div>
+                </header>
+                <p>Servings: @recipe.Servings</p>
+                <p>Cooking time: @recipe.Time mins</p>
+                <p>Rating: @recipe.Rating / 5</p>
+                <p>@recipe.ShortDescription</p>
+                <div class="static-row" style="margin-top: 1rem;">
+                    <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">Details</a>
+                    <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id">Edit</a>
+                    <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id">Delete</a>
                 </div>
             </div>
-        }
-    </div>
-   
-    
+        </div>
+    }
 </div>
-
-

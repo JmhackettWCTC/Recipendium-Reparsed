@@ -1,0 +1,124 @@
+@import 'variables';
+
+// ==========================================
+// Navigation — Modern Pill Style
+// ==========================================
+
+nav {
+    display: block;
+}
+
+nav > ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: $space-xs;
+    text-align: center;
+}
+
+nav.left > ul {
+    justify-content: flex-start;
+}
+
+nav.right > ul {
+    justify-content: flex-end;
+}
+
+nav.center > ul {
+    justify-content: center;
+}
+
+nav.full > ul > li {
+    flex: 1;
+}
+
+nav > ul > li > a {
+    padding: $space-sm $space-lg;
+    display: block;
+    text-decoration: none;
+    color: rgba($color-light, 0.85);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    border-radius: $radius-xl;
+    transition: all $transition-fast;
+    letter-spacing: 0.01em;
+
+    &:hover {
+        color: $color-light;
+        background: rgba($color-light, 0.12);
+    }
+
+    &:active {
+        background: rgba($color-light, 0.08);
+    }
+}
+
+// Active nav indicator
+nav > ul > li > a.active {
+    color: $color-light;
+    background: rgba($color-main, 0.2);
+}
+
+// ==========================================
+// Mobile Menu Button
+// ==========================================
+
+#mobile-menu-button {
+    background: linear-gradient(135deg, $color-main 0%, $color-main-soft 100%);
+    color: $color-dark;
+    border: none;
+    padding: $space-sm $space-lg;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    font-family: $font-family;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: all $transition-default;
+    margin: $space-md;
+    box-shadow: $shadow-md;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: $shadow-sm;
+    }
+}
+
+// ==========================================
+// Responsive Navigation
+// ==========================================
+
+@media (max-width: $breakpoint-mobile) {
+    #mobile-menu-button {
+        padding: $space-xs $space-md;
+        font-size: $font-size-sm;
+        margin: $space-sm;
+    }
+
+    nav > ul > li > a {
+        padding: $space-md $space-lg;
+        font-size: $font-size-base;
+        border-radius: $radius-md;
+    }
+
+    nav > ul {
+        flex-direction: column;
+        gap: $space-xs;
+    }
+}
+
+// ==========================================
+// Side Panel
+// ==========================================
+
+.sidePanel {
+    position: sticky;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, $color-dark 0%, $color-dark-soft 100%);
+}

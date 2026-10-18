@@ -1,53 +1,39 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Recipendium_Reparsed</title>
-    <script type="importmap"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/journal/bootstrap.min.css" rel="stylesheet">
+    <title>@ViewData["Title"] - Recipendium</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Recipendium_Reparsed</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark" href="#" id="recipesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Recipes
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="recipesDropdown">
-                            <li><a class="dropdown-item" asp-area="" asp-controller="Recipe" asp-action="Index">View</a></li>
-                            <li><a class="dropdown-item" asp-area="" asp-controller="Recipe" asp-action="Create">Create</a></li>
-                        </ul>
-                    </li>
-                </ul>
+    <div class="site-width">
+        <div class="static-row" id="desktop">
+            <div class="flex-1">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="site-title">Recipendium</a>
             </div>
+            <nav class="flex-1 right">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Recipe" asp-action="Index">Recipes</a></li>
+                    <li><a asp-area="" asp-controller="Recipe" asp-action="Create">Add Recipe</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </div>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
+
+<article class="site-width">
+    <main role="main">
         @RenderBody()
     </main>
-</div>
+</article>
 
-<footer class="border-top footer text-muted">
-    <div class="text-center">
-        &copy; 2026 - Recipendium_Reparsed 
-    </div>
+<footer>
+    <p>&copy; 2026 - Recipendium</p>
 </footer>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,0 +1,75 @@
+@import 'variables';
+
+// ==========================================
+// Media Utilities
+// ==========================================
+
+.media {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: $radius-md;
+}
+
+// ==========================================
+// Icon Buttons
+// ==========================================
+
+.icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: $radius-md;
+    padding: $space-sm;
+    transition: all $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba($color-link, 0.1);
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+        background-color: rgba($color-main, 0.15);
+    }
+}
+
+// ==========================================
+// Favorite Icon (inline/page)
+// ==========================================
+
+.favoriteIconPage {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: $space-sm;
+    border-radius: $radius-circle;
+    width: 48px;
+    height: 48px;
+    background-color: $color-surface;
+    border: 2px solid $color-border;
+    color: $color-text-muted;
+    transition: all $transition-fast;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+        border-color: $color-danger-soft;
+        color: $color-danger;
+        background-color: rgba($color-danger, 0.05);
+        transform: scale(1.1);
+        box-shadow: $shadow-md;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.favorited {
+    background-color: rgba($color-danger, 0.1);
+    border-color: $color-danger;
+    color: $color-danger;
+}

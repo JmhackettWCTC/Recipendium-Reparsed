@@ -1,0 +1,105 @@
+@import 'variables';
+
+// ==========================================
+// Flexbox Utilities
+// ==========================================
+
+.row {
+    display: flex;
+    gap: $space-lg;
+    align-items: flex-start;
+}
+
+.static-row {
+    display: flex;
+    gap: $space-md;
+    align-items: center;
+}
+
+.flex-1 {
+    flex: 1;
+    min-width: 0;
+}
+
+.flex-2 {
+    flex: 2;
+    min-width: 0;
+}
+
+.flex-3 {
+    flex: 3;
+    min-width: 0;
+}
+
+.row figure > figcaption {
+    font-style: italic;
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+    margin-top: $space-sm;
+}
+
+.row figure > img:has(+figcaption) {
+    height: calc(100% - 2rem);
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .row {
+        flex-direction: column;
+        gap: $space-md;
+    }
+
+    .static-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $space-sm;
+    }
+}
+
+[class^="flex-"] > header {
+    color: $color-main;
+    border-bottom: none;
+    padding-bottom: $space-md;
+    margin-bottom: $space-md;
+}
+
+[class^="flex-"] > header h2,
+[class^="flex-"] > header h3 {
+    font-weight: 700;
+    color: $color-dark;
+    position: relative;
+    padding-bottom: $space-sm;
+}
+
+[class^="flex-"] > header h2::after,
+[class^="flex-"] > header h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, $color-main, $color-main-soft);
+    border-radius: 2px;
+}
+
+// ==========================================
+// Text Alignment Utilities
+// ==========================================
+
+.right {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+body > header > .row {
+    margin: 0;
+}

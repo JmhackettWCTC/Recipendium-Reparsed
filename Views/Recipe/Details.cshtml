@@ -1,45 +1,52 @@
-﻿@model Recipe
+@model Recipe
 @{
     ViewData["Title"] = Model.Name;
     String[] ingredients = Model.Ingredients.Split(",");
     String[] instructions = Model.Instructions.Split("|");
 }
 
-<article>
-    <header>
-        <h2>@Model.Name</h2>
-        <div class="row">
-            <div class="col">
-                <p>Servings: @Model.Servings</p>
-            </div>
-            <div class="col">
-                <p>Time: @Model.Time</p>
-            </div>
+<header>
+    <h2>@Model.Name</h2>
+    <div class="static-row">
+        <div class="flex-1">
+            <p>Servings: @Model.Servings</p>
         </div>
-        
-    </header>
-    <p>@Model.LongDescription</p>
-    <section class="row">
-        <div class="col">
-            <h3>Ingredients</h3>
-            <ul>
-                @foreach (var ingredient in ingredients)
-                {
-                    <li>@ingredient</li>
-                }
-            </ul>
-           
+        <div class="flex-1">
+            <p>Cooking time: @Model.Time mins</p>
         </div>
-        <div class="col">
-            <h3>Instructions</h3>
-            <ol>
-                @foreach (var instruction in instructions)
-                {
-                    <li>@instruction</li>
-                }
-            </ol>
-            
+        <div class="flex-1">
+            <p>Rating: @Model.Rating / 5</p>
         </div>
-    </section>
-</article>
+    </div>
+</header>
 
+<section>
+    <p>@Model.LongDescription</p>
+</section>
+
+<section class="row">
+    <div class="flex-1">
+        <header>
+            <h3>Ingredients</h3>
+        </header>
+        <ul>
+            @foreach (var ingredient in ingredients)
+            {
+                <li>@ingredient</li>
+            }
+        </ul>
+    </div>
+    <div class="flex-1">
+        <header>
+            <h3>Instructions</h3>
+        </header>
+        <ol>
+            @foreach (var instruction in instructions)
+            {
+                <li>@instruction</li>
+            }
+        </ol>
+    </div>
+</section>
+
+<a class="back-btn" asp-action="Index">← Back to Recipes</a>
