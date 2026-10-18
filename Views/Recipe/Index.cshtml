@@ -18,6 +18,8 @@
                     </div>
                     <p class="card-text">@recipe.ShortDescription</p>
                     <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">details</a>
+                    <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id">edit</a>
+                    <a class="card-link" asp-area="" asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id">delete</a>
 
                 </div>
             </div>

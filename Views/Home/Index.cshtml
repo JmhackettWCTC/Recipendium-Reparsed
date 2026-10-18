@@ -1,11 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Welcome";
+@{
+    ViewData["Title"] = "Home Page";
 }
 
-<header><h1>Welcome!</h1></header>
-<main>
-    <p>This is my Recipe Website. Reborn with .NET as its backend instead of PHP</p>
-</main>
+<div class="text-center mt-5">
+    <header><h1>Welcome!</h1></header>
+    <main>
+        <p>This is my Recipe Website. Reborn with .NET as its backend instead of PHP</p>
+    </main>
+   
+    <a class="btn btn-primary btn-lg" asp-controller="Recipe" asp-action="Index" role="button">View Recipes</a>
+    <a class="btn btn-secondary btn-lg" asp-controller="Recipe" asp-action="Create" role="button">Add New Recipe</a>
+</div>
 @section Scripts {
-    <script src="https://jgrissom.github.io/dotnet-web-dev/week-07/homework-checks.js"></script>
+    <script src="https://jgrissom.github.io/dotnet-web-dev/week-08/homework-checks.js"></script>
 }
