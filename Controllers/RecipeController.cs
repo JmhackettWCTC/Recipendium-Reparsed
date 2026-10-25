@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Recipendium_Reparsed.Data;
 using Recipendium_Reparsed.Models;
 
@@ -10,13 +11,15 @@ namespace Recipendium_Reparsed.Controllers;
 public class RecipeController : Controller
 {
     private readonly RecipeDbContext _context;
+    private readonly ILogger<RecipeController> _logger;
 
     /// <summary>
-    /// Creates a new instance of RecipeController with the specified database context.
+    /// Creates a new instance of RecipeController with the specified database context and logger.
     /// </summary>
-    public RecipeController(RecipeDbContext context)
+    public RecipeController(RecipeDbContext context, ILogger<RecipeController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     /// <summary>
@@ -25,7 +28,15 @@ public class RecipeController : Controller
     /// </summary>
     public IActionResult Index()
     {
-        return View(_context.Recipes.ToList());
+        try
+        {
+            return View(_context.Recipes.ToList());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while retrieving recipes.");
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 
     /// <summary>
@@ -34,14 +45,22 @@ public class RecipeController : Controller
     /// </summary>
     public IActionResult Details(int id)
     {
-        var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
-
-        if (recipe == null)
+        try
         {
-            return NotFound();       
-        }
+            var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
 
-        return View(recipe);
+            if (recipe == null)
+            {
+                return NotFound();       
+            }
+
+            return View(recipe);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while retrieving recipe with ID: {RecipeId}", id);
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 
     /// <summary>
@@ -66,9 +85,17 @@ public class RecipeController : Controller
             return View(recipe);
         }
 
-        _context.Recipes.Add(recipe);
-        _context.SaveChanges();
-        return RedirectToAction(nameof(Index));
+        try
+        {
+            _context.Recipes.Add(recipe);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while creating a recipe.");
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 
     /// <summary>
@@ -78,14 +105,22 @@ public class RecipeController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
-
-        if (recipe == null)
+        try
         {
-            return NotFound();
-        }
+            var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
 
-        return View(recipe);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return View(recipe);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while retrieving recipe for editing with ID: {RecipeId}", id);
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 
     /// <summary>
@@ -100,9 +135,17 @@ public class RecipeController : Controller
             return View(recipe);
         }
 
-        _context.Recipes.Update(recipe);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        try
+        {
+            _context.Recipes.Update(recipe);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while updating recipe with ID: {RecipeId}", recipe.Id);
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 
     /// <summary>
@@ -112,14 +155,22 @@ public class RecipeController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
-        var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
-
-        if (recipe == null)
+        try
         {
-            return NotFound();
-        }
+            var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
 
-        return View(recipe);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return View(recipe);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while retrieving recipe for deletion with ID: {RecipeId}", id);
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 
     /// <summary>
@@ -129,14 +180,22 @@ public class RecipeController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Recipe recipe)
     {
-        var existing = _context.Recipes.FirstOrDefault(t => t.Id == recipe.Id);
-        if (existing == null)
+        try
         {
-            return NotFound();
-        }
+            var existing = _context.Recipes.FirstOrDefault(t => t.Id == recipe.Id);
+            if (existing == null)
+            {
+                return NotFound();
+            }
 
-        _context.Recipes.Remove(existing);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+            _context.Recipes.Remove(existing);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while deleting recipe with ID: {RecipeId}", recipe.Id);
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
     }
 }
