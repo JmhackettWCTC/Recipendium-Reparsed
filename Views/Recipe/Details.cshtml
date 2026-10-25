@@ -1,13 +1,20 @@
-@model Recipe
+@* Recipe Details - Shows full recipe information including ingredients and instructions *@
+@model Recipendium_Reparsed.Models.Recipe
 @{
     ViewData["Title"] = Model.Name;
+    
+    @* Parse ingredients (comma-separated) and instructions (pipe-separated) *@
     String[] ingredients = Model.Ingredients.Split(",");
     String[] instructions = Model.Instructions.Split("|");
 }
 
+@* Recipe Header with Metadata *@
 <header>
     <h2>@Model.Name</h2>
     <div class="static-row">
+        <div class="flex-1">
+            <p>Category: @Model.Category</p>
+        </div>
         <div class="flex-1">
             <p>Servings: @Model.Servings</p>
         </div>
@@ -20,12 +27,15 @@
     </div>
 </header>
 
+@* Long Description Section *@
 <section>
     <p>@Model.LongDescription</p>
 </section>
 
+@* Ingredients and Instructions Side-by-Side *@
 <section class="row">
     <div class="flex-1">
+        @* Ingredients List *@
         <header>
             <h3>Ingredients</h3>
         </header>
@@ -37,6 +47,7 @@
         </ul>
     </div>
     <div class="flex-1">
+        @* Instructions List *@
         <header>
             <h3>Instructions</h3>
         </header>
@@ -49,4 +60,5 @@
     </div>
 </section>
 
+@* Navigation Back Button *@
 <a class="back-btn" asp-action="Index">← Back to Recipes</a>

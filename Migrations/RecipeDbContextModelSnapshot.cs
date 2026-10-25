@@ -85,6 +85,7 @@ namespace Recipendium_Reparsed.Migrations
 
                     b.ToTable("Recipe");
                 });
+
 #pragma warning restore 612, 618
         }
     }

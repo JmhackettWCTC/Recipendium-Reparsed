@@ -1,17 +1,21 @@
-@model Recipe
+@* Delete Recipe Confirmation - Shows recipe details before deletion *@
+@model Recipendium_Reparsed.Models.Recipe
 
 @{
     ViewData["Title"] = "Delete Recipe";
 }
 
+@* Page Header *@
 <header>
     <h1>Delete Recipe</h1>
 </header>
 
+@* Confirmation Message *@
 <section>
     <h3>Are you sure you want to delete this?</h3>
 </section>
 
+@* Recipe Summary *@
 <div class="recipe-list">
     <h4>@Model.Name</h4>
     <p><strong>Category:</strong> @Model.Category</p>
@@ -21,9 +25,11 @@
     <p><strong>Rating:</strong> @Model.Rating / 5</p>
 </div>
 
+@* Delete Confirmation Form *@
 <form asp-action="Delete">
     <input type="hidden" asp-for="Id" />
     <button type="submit" class="menacingBtn">Delete</button>
 </form>
 
+@* Navigation Back Button *@
 <a class="back-btn" asp-action="Index">← Back to Recipes</a>

@@ -1,25 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Recipendium_Reparsed.Data;
 using Recipendium_Reparsed.Models;
 
 namespace Recipendium_Reparsed.Controllers;
 
+/// <summary>
+/// Handles all recipe-related operations including listing, creating, editing, and deleting recipes.
+/// </summary>
 public class RecipeController : Controller
 {
     private readonly RecipeDbContext _context;
 
+    /// <summary>
+    /// Creates a new instance of RecipeController with the specified database context.
+    /// </summary>
     public RecipeController(RecipeDbContext context)
     {
         _context = context;
     }
 
-    // GET
+    /// <summary>
+    /// Displays a list of all recipes.
+    /// GET: /Recipe/Index
+    /// </summary>
     public IActionResult Index()
     {
         return View(_context.Recipes.ToList());
     }
 
+    /// <summary>
+    /// Displays detailed information about a specific recipe.
+    /// GET: /Recipe/Details/5
+    /// </summary>
     public IActionResult Details(int id)
     {
         var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
@@ -32,12 +44,20 @@ public class RecipeController : Controller
         return View(recipe);
     }
 
+    /// <summary>
+    /// Shows the create recipe form.
+    /// GET: /Recipe/Create
+    /// </summary>
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    /// <summary>
+    /// Processes the create recipe form submission and saves the new recipe.
+    /// POST: /Recipe/Create
+    /// </summary>
     [HttpPost]
     public IActionResult Create(Recipe recipe)
     {
@@ -51,7 +71,10 @@ public class RecipeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // GET: /Recipe/Edit/9
+    /// <summary>
+    /// Shows the edit recipe form with the existing recipe data.
+    /// GET: /Recipe/Edit/5
+    /// </summary>
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -65,7 +88,10 @@ public class RecipeController : Controller
         return View(recipe);
     }
 
-    // POST: /Recipe/Edit
+    /// <summary>
+    /// Processes the edit recipe form submission and updates the existing recipe.
+    /// POST: /Recipe/Edit
+    /// </summary>
     [HttpPost]
     public async Task<IActionResult> Edit(Recipe recipe)
     {
@@ -79,7 +105,10 @@ public class RecipeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // GET: /Recipe/Delete/9
+    /// <summary>
+    /// Shows the delete confirmation page for a specific recipe.
+    /// GET: /Recipe/Delete/5
+    /// </summary>
     [HttpGet]
     public IActionResult Delete(int id)
     {
@@ -93,7 +122,10 @@ public class RecipeController : Controller
         return View(recipe);
     }
 
-    // POST: /Recipe/Delete
+    /// <summary>
+    /// Processes the delete recipe form submission and removes the recipe from the database.
+    /// POST: /Recipe/Delete
+    /// </summary>
     [HttpPost]
     public async Task<IActionResult> Delete(Recipe recipe)
     {

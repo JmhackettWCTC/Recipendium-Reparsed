@@ -1,27 +1,36 @@
-@model List<Recipe>
+@* Recipe Index - Displays all recipes in a card grid *@
+@model List<Recipendium_Reparsed.Models.Recipe>
+
 @{
     ViewData["Title"] = "Recipes";
 }
 
+@* Page Header *@
 <header>
     <h1>Recipes</h1>
 </header>
 
+@* Recipe Cards Grid *@
 <div class="cards">
     @foreach (var recipe in Model)
     {
         <div class="card">
             <div class="card__info">
+                @* Recipe Title and Category *@
                 <header class="static-row">
                     <div class="flex-1"><h3>@recipe.Name</h3></div>
                     <div class="flex-1">
                         <p>@recipe.Category</p>
                     </div>
                 </header>
+                
+                @* Recipe Details *@
                 <p>Servings: @recipe.Servings</p>
                 <p>Cooking time: @recipe.Time mins</p>
                 <p>Rating: @recipe.Rating / 5</p>
                 <p>@recipe.ShortDescription</p>
+                
+                @* Action Buttons *@
                 <div class="static-row" style="margin-top: 1rem;">
                     <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">Details</a>
                     <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id">Edit</a>

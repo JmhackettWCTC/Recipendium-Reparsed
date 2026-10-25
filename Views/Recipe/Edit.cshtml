@@ -1,15 +1,20 @@
+@* Edit Recipe Form - Allows users to modify an existing recipe *@
 @model Recipendium_Reparsed.Models.Recipe
 
 @{
     ViewData["Title"] = "Edit Recipe";
 }
 
+@* Page Header *@
 <header>
     <h1>Edit Recipe</h1>
 </header>
 
+@* Recipe Edit Form *@
 <form asp-action="Edit">
     <input type="hidden" asp-for="Id" />
+    
+    @* Basic Information Section *@
     <div class="form-group mb-3">
         <label asp-for="Name"></label>
         <input asp-for="Name" />
@@ -17,15 +22,7 @@
     </div>
     <div class="form-group mb-3">
         <label asp-for="Category"></label>
-        <select asp-for="Category">
-            <option value="">-- Select Category --</option>
-            <option value="Breakfast" selected="@(Model.Category == "Breakfast")">Breakfast</option>
-            <option value="Lunch" selected="@(Model.Category == "Lunch")">Lunch</option>
-            <option value="Dinner" selected="@(Model.Category == "Dinner")">Dinner</option>
-            <option value="Dessert" selected="@(Model.Category == "Dessert")">Dessert</option>
-            <option value="Snack" selected="@(Model.Category == "Snack")">Snack</option>
-            <option value="Drink" selected="@(Model.Category == "Drink")">Drink</option>
-        </select>
+        <input asp-for="Category" />
         <span asp-validation-for="Category" class="error"></span>
     </div>
     <div class="form-group mb-3">
@@ -38,6 +35,8 @@
         <input asp-for="Servings" type="number" />
         <span asp-validation-for="Servings" class="error"></span>
     </div>
+
+    @* Recipe Content Section *@
     <div class="form-group mb-3">
         <label asp-for="Ingredients"></label>
         <textarea asp-for="Ingredients" rows="3"></textarea>
@@ -48,6 +47,8 @@
         <textarea asp-for="Instructions" rows="3"></textarea>
         <span asp-validation-for="Instructions" class="error"></span>
     </div>
+
+    @* Description Section *@
     <div class="form-group mb-3">
         <label asp-for="ShortDescription"></label>
         <input asp-for="ShortDescription" />
@@ -58,14 +59,19 @@
         <textarea asp-for="LongDescription" rows="3"></textarea>
         <span asp-validation-for="LongDescription" class="error"></span>
     </div>
+
+    @* Rating Section *@
     <div class="form-group mb-3">
         <label asp-for="Rating"></label>
         <input asp-for="Rating" type="number" min="0" max="5" step="0.1" />
         <span asp-validation-for="Rating" class="error"></span>
     </div>
+
+    @* Submit Button *@
     <div class="form-group">
         <button type="submit">Save</button>
     </div>
 </form>
 
+@* Navigation Back Button *@
 <a class="back-btn" asp-action="Index">← Back to Recipes</a>
