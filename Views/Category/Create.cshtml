@@ -3,47 +3,25 @@
 
 @{
     ViewData["Title"] = "Create Category";
+    var recipes = ViewData["Recipes"] as List<Recipendium_Reparsed.Models.Recipe> ?? new List<Recipendium_Reparsed.Models.Recipe>();
+    var recipesJson = System.Text.Json.JsonSerializer.Serialize(recipes.Select(r => new { id = r.Id, name = r.Name }));
 }
 
-<header>
-    <h1>Create Category</h1>
-</header>
-
-<form asp-action="Create" class="recipe-form">
-    <div class="form-group mb-3">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" placeholder="e.g., Breakfast, Lunch, Dinner" />
-        <span asp-validation-for="Name" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" rows="3" placeholder="Brief description of the category"></textarea>
-        <span asp-validation-for="Description" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Slug"></label>
-        <input asp-for="Slug" placeholder="e.g., breakfast, lunch, dinner" />
-        <span asp-validation-for="Slug" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Image"></label>
-        <input asp-for="Image" placeholder="URL or path to category image" />
-        <span asp-validation-for="Image" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label for="selectedRecipes">Assign Recipes (optional)</label>
-        <select multiple id="selectedRecipes" name="selectedRecipes" class="form-control">
-            @foreach (var recipe in (ViewData["Recipes"] as List<Recipendium_Reparsed.Models.Recipe> ?? new List<Recipendium_Reparsed.Models.Recipe>()))
-            {
-                <option value="@recipe.Id">@recipe.Name</option>
-            }
-        </select>
-        <small class="form-hint">Hold Ctrl (Cmd on Mac) to select multiple recipes to assign to this category.</small>
-    </div>
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Create Category</button>
-        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+<form asp-action="Create">
+    <div id="app">
+        <category-form
+            :recipes-json='@Html.Raw(recipesJson)'
+            is-create="true"
+            submit-label="Create Category"
+            submit-icon="add_circle"
+        ></category-form>
     </div>
 </form>
 
-<a class="back-btn" asp-action="Index">← Back to Categories</a>
+@section Scripts {
+    <script type="module">
+        import CategoryForm from '/js/components/CategoryFormComponent.js';
+        import { mountApp } from '/js/main.js';
+        mountApp('#app', { 'category-form': CategoryForm });
+    </script>
+}

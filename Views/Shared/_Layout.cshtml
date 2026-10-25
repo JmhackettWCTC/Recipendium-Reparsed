@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Recipendium</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <!-- Quasar Framework CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2/dist/quasar.prod.css" rel="stylesheet"/>
+    <!-- Google Fonts for Quasar -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 </head>
 <body>
 <header>
@@ -36,11 +41,19 @@
     </main>
 </article>
 
-<footer>
-    <p>&copy; 2026 - Recipendium</p>
+<footer class="site-footer">
+    <div class="site-width">
+        <p>&copy; 2026 - Recipendium</p>
+    </div>
 </footer>
 
+<!-- Vue.js 3 -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<!-- Quasar Framework JS -->
+<script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/quasar.umd.prod.js"></script>
+<!-- Site utilities -->
 <script src="~/js/site.js" asp-append-version="true"></script>
+<!-- Page-specific Vue components (type="module" scripts) -->
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

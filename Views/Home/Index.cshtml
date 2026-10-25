@@ -2,19 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<header>
-    <h1>Welcome</h1>
-</header>
-
-<section>
-    <p>Hello and welcome to Recipendium, a combination of recipe and compendium. This website's goal is to allow people to share and store their recipes for the world to see. I hope you enjoy it!</p>
-</section>
-
-<section>
-    <a class="btn" asp-controller="Recipe" asp-action="Index" role="button">View Recipes</a>
-    <a class="btn" asp-controller="Recipe" asp-action="Create" role="button">Add New Recipe</a>
-</section>
+<div id="app">
+    <home-page></home-page>
+</div>
 
 @section Scripts {
-    <script src="https://jgrissom.github.io/dotnet-web-dev/week-09/homework-checks.js"></script>
+    <script type="module">
+        import HomePage from '/js/components/HomeComponent.js';
+        import { mountApp } from '/js/main.js';
+        mountApp('#app', { 'home-page': HomePage });
+    </script>
 }

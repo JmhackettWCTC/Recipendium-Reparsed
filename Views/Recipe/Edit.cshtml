@@ -3,106 +3,38 @@
 
 @{
     ViewData["Title"] = "Edit Recipe";
+    var categories = ViewData["Categories"] as List<Recipendium_Reparsed.Models.Category> ?? new List<Recipendium_Reparsed.Models.Category>();
+    var categoriesJson = System.Text.Json.JsonSerializer.Serialize(categories.Select(c => new { id = c.Id, name = c.Name }));
+    var recipeJson = System.Text.Json.JsonSerializer.Serialize(new {
+        id = Model.Id,
+        name = Model.Name,
+        categoryId = Model.CategoryId,
+        time = Model.Time,
+        servings = Model.Servings,
+        ingredients = Model.Ingredients,
+        instructions = Model.Instructions,
+        shortDescription = Model.ShortDescription,
+        longDescription = Model.LongDescription,
+        rating = Model.Rating
+    });
 }
 
-@* Page Header *@
-<header>
-    <h1>Edit Recipe</h1>
-</header>
-
-@* Recipe Edit Form *@
-<form asp-action="Edit" class="recipe-form">
-    <input type="hidden" asp-for="Id" />
-    
-    @* Basic Information Section *@
-    <fieldset class="form-section">
-        <legend>Basic Information</legend>
-        <div class="form-grid">
-            <div class="form-group mb-3">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" placeholder="e.g., Chocolate Chip Cookies" />
-                <span asp-validation-for="Name" class="error"></span>
-                <small class="form-hint">A descriptive name for your recipe (2-100 characters).</small>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="CategoryId"></label>
-                <select asp-for="CategoryId">
-                    <option value="">-- Select a Category --</option>
-                    @foreach (var category in (ViewData["Categories"] as List<Recipendium_Reparsed.Models.Category> ?? new List<Recipendium_Reparsed.Models.Category>()))
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CategoryId" class="error"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Time"></label>
-                <input asp-for="Time" type="number" min="1" placeholder="Minutes" />
-                <span asp-validation-for="Time" class="error"></span>
-                <small class="form-hint">Total preparation and cooking time in minutes.</small>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Servings"></label>
-                <input asp-for="Servings" type="number" min="1" placeholder="Number of servings" />
-                <span asp-validation-for="Servings" class="error"></span>
-                <small class="form-hint">How many servings this recipe makes.</small>
-            </div>
-        </div>
-    </fieldset>
-
-    @* Recipe Content Section *@
-    <fieldset class="form-section">
-        <legend>Recipe Content</legend>
-        <div class="form-group mb-3">
-            <label asp-for="Ingredients"></label>
-            <textarea asp-for="Ingredients" rows="5" placeholder="Enter each ingredient on a new line&#10;e.g.,&#10;2 cups flour&#10;1 cup sugar&#10;1/2 cup butter"></textarea>
-            <span asp-validation-for="Ingredients" class="error"></span>
-            <small class="form-hint">List each ingredient on a separate line.</small>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="Instructions"></label>
-            <textarea asp-for="Instructions" rows="8" placeholder="Enter each step separated by a pipe (|) character&#10;e.g.,&#10;Preheat oven to 375°F|Mix dry ingredients|Add wet ingredients|Bake for 12 minutes"></textarea>
-            <span asp-validation-for="Instructions" class="error"></span>
-            <small class="form-hint">Separate each step with a pipe (|) character.</small>
-        </div>
-    </fieldset>
-
-    @* Description Section *@
-    <fieldset class="form-section">
-        <legend>Description</legend>
-        <div class="form-group mb-3">
-            <label asp-for="ShortDescription"></label>
-            <input asp-for="ShortDescription" placeholder="A brief summary shown on the recipe list" />
-            <span asp-validation-for="ShortDescription" class="error"></span>
-            <small class="form-hint">A short summary displayed on the recipe listing page (5-200 characters).</small>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="LongDescription"></label>
-            <textarea asp-for="LongDescription" rows="4" placeholder="A detailed description of the recipe"></textarea>
-            <span asp-validation-for="LongDescription" class="error"></span>
-            <small class="form-hint">A fuller description shown on the recipe details page.</small>
-        </div>
-    </fieldset>
-
-    @* Optional Section *@
-    <fieldset class="form-section">
-        <legend>Optional</legend>
-        <div class="form-grid">
-            <div class="form-group mb-3">
-                <label asp-for="Rating"></label>
-                <input asp-for="Rating" type="number" min="0" max="5" step="0.1" placeholder="0 - 5" />
-                <span asp-validation-for="Rating" class="error"></span>
-                <small class="form-hint">Rate this recipe from 0 to 5 stars.</small>
-            </div>
-        </div>
-    </fieldset>
-
-    @* Submit Buttons *@
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div id="app">
+        <recipe-form
+            :recipe-json='@Html.Raw(recipeJson)'
+            :categories-json='@Html.Raw(categoriesJson)'
+            is-create="false"
+            submit-label="Save Changes"
+            submit-icon="save"
+        ></recipe-form>
     </div>
 </form>
 
-@* Navigation Back Button *@
-<a class="back-btn" asp-action="Index">← Back to Recipes</a>
+@section Scripts {
+    <script type="module">
+        import RecipeForm from '/js/components/RecipeFormComponent.js';
+        import { mountApp } from '/js/main.js';
+        mountApp('#app', { 'recipe-form': RecipeForm });
+    </script>
+}

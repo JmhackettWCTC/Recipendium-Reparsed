@@ -3,44 +3,22 @@
 
 @{
     ViewData["Title"] = "Categories";
+    var categoriesJson = System.Text.Json.JsonSerializer.Serialize(Model.Select(c => new {
+        id = c.Id,
+        name = c.Name,
+        description = c.Description,
+        recipeCount = c.Recipes.Count
+    }));
 }
 
-<header>
-    <h1>Categories</h1>
-</header>
+<div id="app">
+    <category-index :categories-json='@Html.Raw(categoriesJson)'></category-index>
+</div>
 
-@if (Model != null && Model.Count > 0)
-{
-    <p class="recipe-count">Showing @Model.Count categor@(Model.Count == 1 ? "y" : "ies")</p>
-
-    <div class="cards">
-        @foreach (var category in Model)
-        {
-            <div class="card">
-                <div class="card__info">
-                    <header class="static-row">
-                        <div class="flex-1"><h3>@category.Name</h3></div>
-                    </header>
-                    @if (!string.IsNullOrEmpty(category.Description))
-                    {
-                        <p>@category.Description</p>
-                    }
-                    <p>Recipes: @category.Recipes.Count</p>
-                    <div class="static-row">
-                        <a class="btn" asp-area="" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
-                        <a class="btn" asp-area="" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+@section Scripts {
+    <script type="module">
+        import CategoryIndex from '/js/components/CategoryIndexComponent.js';
+        import { mountApp } from '/js/main.js';
+        mountApp('#app', { 'category-index': CategoryIndex });
+    </script>
 }
-else
-{
-    <div class="no-recipes">
-        <p>No categories found.</p>
-        <a class="btn" asp-area="" asp-controller="Category" asp-action="Create">Add a Category</a>
-    </div>
-}
-
-<a class="btn" asp-area="" asp-controller="Category" asp-action="Create">Add New Category</a>

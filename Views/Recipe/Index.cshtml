@@ -6,103 +6,39 @@
     var categories = ViewData["Categories"] as List<Recipendium_Reparsed.Models.Category> ?? new List<Recipendium_Reparsed.Models.Category>();
     var currentCategory = ViewData["CurrentCategory"] as string;
     var currentSort = ViewData["CurrentSort"] as string ?? "nameAsc";
+    var currentSearch = ViewData["CurrentSearch"] as string;
+    
+    // Serialize data for Vue component
+    var recipesJson = Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(r => new {
+        id = r.Id,
+        name = r.Name,
+        image = r.Image,
+        categoryName = r.Category?.Name,
+        time = r.Time,
+        servings = r.Servings,
+        rating = r.Rating,
+        shortDescription = r.ShortDescription
+    })));
+    var categoriesJson = Html.Raw(System.Text.Json.JsonSerializer.Serialize(categories.Select(c => new {
+        id = c.Id,
+        name = c.Name
+    })));
 }
 
-@* Page Header *@
-<header>
-    <h1>Recipes</h1>
-</header>
-
-@* Filter and Sort Bar *@
-<div class="recipe-filters">
-    <div class="filters-row">
-        @* Category Filter *@
-        <div class="filter-group">
-            <label for="categoryFilter">Filter by Category:</label>
-            <select id="categoryFilter" onchange="window.location.href = '/Recipe/Index?category=' + (this.value || '') + '&sort=' + (this.closest('.filters-row').querySelector('#sortOrder').value || '')">
-                <option value="">All Categories</option>
-                @foreach (var category in categories)
-                {
-                    <option value="@category.Name" selected="@(currentCategory == category.Name)">@category.Name</option>
-                }
-            </select>
-        </div>
-
-        @* Sort Order *@
-        <div class="filter-group">
-            <label for="sortOrder">Sort by:</label>
-            <select id="sortOrder" onchange="window.location.href = '/Recipe/Index?category=' + (this.closest('.filters-row').querySelector('#categoryFilter').value || '') + '&sort=' + this.value">
-                <option value="nameAsc" selected="@(currentSort == "nameAsc")">Name (A-Z)</option>
-                <option value="nameDesc" selected="@(currentSort == "nameDesc")">Name (Z-A)</option>
-                <option value="ratingDesc" selected="@(currentSort == "ratingDesc")">Rating (High-Low)</option>
-                <option value="ratingAsc" selected="@(currentSort == "ratingAsc")">Rating (Low-High)</option>
-                <option value="timeAsc" selected="@(currentSort == "timeAsc")">Time (Shortest)</option>
-                <option value="timeDesc" selected="@(currentSort == "timeDesc")">Time (Longest)</option>
-            </select>
-        </div>
-    </div>
+<div id="app">
+    <recipe-index
+        :recipes-json='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(recipesJson.ToString()))'
+        :categories-json='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(categoriesJson.ToString()))'
+        current-category='@(currentCategory ?? "")'
+        current-sort='@(currentSort ?? "nameAsc")'
+        current-search='@(currentSearch ?? "")'
+    ></recipe-index>
 </div>
 
-@* Recipe Count *@
-@if (Model != null && Model.Count > 0)
-{
-    <p class="recipe-count">Showing @Model.Count recipe@(Model.Count == 1 ? "" : "s")@(string.IsNullOrEmpty(currentCategory) ? "" : " in " + currentCategory)</p>
-}
-else
-{
-    <div class="no-recipes">
-        <p>No recipes found@(string.IsNullOrEmpty(currentCategory) ? "" : " in this category").</p>
-        <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Create">Add a Recipe</a>
-    </div>
-}
-
-@* Recipe Cards Grid *@
-@if (Model != null && Model.Count > 0)
-{
-    <div class="cards">
-        @foreach (var recipe in Model)
-        {
-            <div class="card">
-                @* Recipe Image *@
-                <div class="card__image card-image-height">
-                    @if (!string.IsNullOrEmpty(recipe.Image))
-                    {
-                        <img src="@recipe.Image" alt="@recipe.Name" />
-                    }
-                    else
-                    {
-                        <div class="card__image-placeholder">
-                            <span>🍽️</span>
-                        </div>
-                    }
-                </div>
-
-                @* Card Info *@
-                <div class="card__info">
-                    @* Recipe Title and Category *@
-                    <header class="static-row">
-                        <div class="flex-1"><h3>@recipe.Name</h3></div>
-                        <div class="flex-1">
-                            <p>@recipe.Category?.Name</p>
-                        </div>
-                    </header>
-
-                    @* Recipe Details *@
-                    <div class="recipe-meta">
-                        <p>⏱ @recipe.Time mins</p>
-                        <p>🍴 @recipe.Servings servings</p>
-                        <p>⭐ @recipe.Rating / 5</p>
-                    </div>
-                    <p>@recipe.ShortDescription</p>
-
-                    @* Action Buttons *@
-                    <div class="static-row">
-                        <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">Details</a>
-                        <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id">Edit</a>
-                        <a class="btn" asp-area="" asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id">Delete</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+@section Scripts {
+    <script type="module">
+        import RecipeIndex from '/js/components/RecipeIndexComponent.js';
+        import { mountApp } from '/js/main.js';
+        mountApp('#app', { 'recipe-index': RecipeIndex });
+    </script>
 }

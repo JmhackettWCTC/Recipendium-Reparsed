@@ -6,9 +6,16 @@
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: $space-xl;
     padding: $space-md 0;
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-lg;
+    }
 }
 
 @media (max-width: $breakpoint-mobile) {
@@ -196,7 +203,7 @@
 
     select {
         padding: $space-sm $space-md;
-        border: 1px solid $color-border;
+        border: 2px solid $color-border;
         border-radius: $radius-md;
         background-color: $color-surface;
         color: $color-dark;
@@ -286,9 +293,14 @@
 
 .review-section {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: $space-lg;
     padding: $space-lg 0;
+
+    @media (max-width: $breakpoint-tablet) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-md;
+    }
 
     @media (max-width: $breakpoint-mobile) {
         grid-template-columns: 1fr;
@@ -337,9 +349,17 @@
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: $space-xl;
     padding: $space-xl 0;
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-lg;
+        padding: $space-lg 0;
+    }
 }
 
 @media (max-width: $breakpoint-mobile) {
@@ -425,6 +445,54 @@
 
 .cards-wrapper > div {
     min-height: 0;
+}
+
+// ==========================================
+// Quasar Card Overrides — Uniform Height
+// ==========================================
+
+.recipe-card,
+.category-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.recipe-card .q-card__section,
+.category-card .q-card__section {
+    flex: 1;
+}
+
+// ==========================================
+// Recipe Card Meta Info (time, servings, rating)
+// ==========================================
+
+.recipe-card-meta {
+    justify-content: space-between;
+    padding: $space-sm 0;
+    border-top: 1px solid $color-border;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: $space-sm;
+}
+
+.recipe-card-meta__item {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    flex: 1;
+    min-width: 0;
+
+    .q-icon {
+        flex-shrink: 0;
+    }
+
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 // ==========================================

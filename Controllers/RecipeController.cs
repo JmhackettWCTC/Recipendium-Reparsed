@@ -27,7 +27,7 @@ public class RecipeController : Controller
     /// Displays a list of recipes with optional category filtering and sorting.
     /// GET: /Recipe/Index
     /// </summary>
-    public IActionResult Index(string? category, string? sort)
+    public IActionResult Index(string? category, string? sort, string? search)
     {
         try
         {
@@ -37,6 +37,15 @@ public class RecipeController : Controller
             if (!string.IsNullOrEmpty(category))
             {
                 query = query.Where(r => r.Category != null && r.Category.Name == category);
+            }
+
+            // Filter by search query if specified
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(r => r.Name.Contains(search) 
+                    || r.ShortDescription.Contains(search) 
+                    || r.LongDescription.Contains(search)
+                    || r.Ingredients.Contains(search));
             }
 
             // Apply sorting
@@ -57,6 +66,7 @@ public class RecipeController : Controller
             ViewData["Categories"] = _context.Categories.ToList();
             ViewData["CurrentCategory"] = category;
             ViewData["CurrentSort"] = sort;
+            ViewData["CurrentSearch"] = search;
 
             return View(recipes);
         }
