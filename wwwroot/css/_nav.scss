@@ -113,6 +113,76 @@ nav > ul > li > a.active {
 }
 
 // ==========================================
+// Dropdown Menu
+// ==========================================
+
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown .dropdown-toggle {
+    background: none;
+    border: none;
+    padding: $space-sm $space-lg;
+    display: block;
+    text-decoration: none;
+    color: rgba($color-light, 0.85);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    border-radius: $radius-xl;
+    transition: all $transition-fast;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    font-family: $font-family;
+
+    &:hover {
+        color: $color-light;
+        background: rgba($color-light, 0.12);
+    }
+
+    &:active,
+    &[aria-expanded="true"] {
+        color: $color-light;
+        background: rgba($color-main, 0.2);
+    }
+}
+
+.nav-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    list-style: none;
+    margin: $space-xs 0 0;
+    padding: $space-xs 0;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-lg;
+    z-index: 100;
+
+    &.show {
+        display: block;
+    }
+
+    > li > a {
+        display: block;
+        padding: $space-sm $space-lg;
+        color: $color-dark;
+        text-decoration: none;
+        font-size: $font-size-sm;
+        font-weight: 500;
+        transition: all $transition-fast;
+
+        &:hover {
+            background: rgba($color-main, 0.08);
+            color: $color-main;
+        }
+    }
+}
+
+// ==========================================
 // Side Panel
 // ==========================================
 

@@ -24,4 +24,23 @@ public class Category
     /// URL or path to the category's default image.
     /// </summary>
     public string Image { get; set; } = "";
+
+    /// <summary>
+    /// Brief description of the category.
+    /// </summary>
+    [StringLength(200, ErrorMessage = "Description cannot be longer than 200 characters.")]
+    [Display(Name = "Description")]
+    public string Description { get; set; } = "";
+
+    /// <summary>
+    /// URL-friendly slug for the category name.
+    /// </summary>
+    [StringLength(50, ErrorMessage = "Slug cannot be longer than 50 characters.")]
+    [Display(Name = "Slug")]
+    public string Slug { get; set; } = "";
+
+    /// <summary>
+    /// Navigation property for all recipes in this category.
+    /// </summary>
+    public ICollection<Recipe> Recipes { get; set; } = new List<Recipe>();
 }

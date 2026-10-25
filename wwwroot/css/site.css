@@ -791,6 +791,66 @@ nav > ul > li > a.active {
     gap: 0.25rem;
   }
 }
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown .dropdown-toggle {
+  background: none;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  display: block;
+  text-decoration: none;
+  color: rgba(250, 249, 247, 0.85);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 24px;
+  transition: all 150ms ease;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+.nav-dropdown .dropdown-toggle:hover {
+  color: #faf9f7;
+  background: rgba(250, 249, 247, 0.12);
+}
+.nav-dropdown .dropdown-toggle:active, .nav-dropdown .dropdown-toggle[aria-expanded=true] {
+  color: #faf9f7;
+  background: rgba(255, 159, 28, 0.2);
+}
+
+.nav-dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 180px;
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem 0;
+  background: #ffffff;
+  border: 1px solid #e0dcd6;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+.nav-dropdown .dropdown-menu.show {
+  display: block;
+}
+.nav-dropdown .dropdown-menu > li > a {
+  display: block;
+  padding: 0.5rem 1.5rem;
+  color: #2d2018;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 150ms ease;
+}
+.nav-dropdown .dropdown-menu > li > a:hover {
+  background: rgba(255, 159, 28, 0.08);
+  color: #ff9f1c;
+}
+
 .sidePanel {
   position: sticky;
   width: 100%;

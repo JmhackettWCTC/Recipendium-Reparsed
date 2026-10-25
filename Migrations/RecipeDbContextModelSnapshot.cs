@@ -42,14 +42,22 @@ namespace Recipendium_Reparsed.Migrations
                         .HasColumnName("CategoryID")
                         .HasAnnotation("SqlServer:Identity", "1, 1");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("image");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("image");
+                    b.Property<string>("Slug")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -109,7 +117,7 @@ namespace Recipendium_Reparsed.Migrations
                     b.HasKey("Id");
 
                     b.HasOne("Recipendium_Reparsed.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Recipes")
                         .HasForeignKey("CategoryId");
 
                     b.ToTable("Recipe");

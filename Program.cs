@@ -26,6 +26,23 @@ using (var scope = app.Services.CreateScope())
                     ALTER TABLE Recipe ADD CategoryID INT NOT NULL DEFAULT 1
                 END");
         }
+
+        // Ensure Description and Slug columns exist on Category table
+        db.Database.ExecuteSqlRaw(@"
+            IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Category') AND name = 'Description')
+            BEGIN
+                ALTER TABLE Category ADD Description NVARCHAR(200) NULL
+            END");
+
+        db.Database.ExecuteSqlRaw(@"
+            IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Category') AND name = 'Slug')
+            BEGIN
+                ALTER TABLE Category ADD Slug NVARCHAR(50) NULL
+            END");
+
+        // Update any NULL values to empty strings
+        db.Database.ExecuteSqlRaw("UPDATE Category SET Description = '' WHERE Description IS NULL");
+        db.Database.ExecuteSqlRaw("UPDATE Category SET Slug = '' WHERE Slug IS NULL");
     }
     catch
     {

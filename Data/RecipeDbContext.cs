@@ -48,7 +48,7 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.Rating).HasColumnName("Rating").HasDefaultValue(0);
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
                 entity.HasOne(r => r.Category)
-                    .WithMany()
+                    .WithMany(c => c.Recipes)
                     .HasForeignKey(r => r.CategoryId);
             });
 
@@ -58,6 +58,8 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.Id).HasColumnName("CategoryID");
                 entity.Property(e => e.Name).HasColumnName("Name");
                 entity.Property(e => e.Image).HasColumnName("image");
+                entity.Property(e => e.Description).HasColumnName("Description");
+                entity.Property(e => e.Slug).HasColumnName("Slug");
             });
         }
 
