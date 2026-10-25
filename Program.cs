@@ -11,73 +11,25 @@ builder.Services.AddDbContext<RecipeDbContext>(options =>
 
 var app = builder.Build();
 
-// Migrate from string Category to CategoryId foreign key relationship
+// Ensure database is ready
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<RecipeDbContext>();
     try
     {
-        // Create Category table if it doesn't exist
-        db.Database.ExecuteSqlRaw(@"
-            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Category')
-            BEGIN
-                CREATE TABLE Category (
-                    Id INT IDENTITY(1,1) PRIMARY KEY,
-                    Name NVARCHAR(50) NOT NULL
-                )
-            END");
-
-        // Seed default categories if the table is empty
-        db.Database.ExecuteSqlRaw(@"
-            IF NOT EXISTS (SELECT TOP 1 1 FROM Category)
-            BEGIN
-                INSERT INTO Category (Name) VALUES ('Breakfast'), ('Lunch'), ('Dinner'), ('Dessert'), ('Snack'), ('Drink')
-            END");
-
-        // If Recipe still has the old Category string column, migrate data and replace with CategoryId
-        if (db.Database.ExecuteSqlRaw("SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'Category'") > 0)
+        // Ensure CategoryID column exists on Recipe table
+        if (db.Database.ExecuteSqlRaw("SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'CategoryID'") == 0)
         {
-            // Migrate existing string category values to the Category table and set CategoryId
             db.Database.ExecuteSqlRaw(@"
-                IF EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'Category')
+                IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'CategoryID')
                 BEGIN
-                    -- Update recipes with known category values
-                    UPDATE r SET r.CategoryId = c.Id 
-                    FROM Recipe r 
-                    INNER JOIN Category c ON r.Category = c.Name
-                    WHERE r.Category IS NOT NULL AND r.Category <> ''
-
-                    -- Drop the old Category column
-                    ALTER TABLE Recipe DROP COLUMN Category
-
-                    -- Add CategoryId column if it doesn't exist
-                    IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'CategoryId')
-                    BEGIN
-                        ALTER TABLE Recipe ADD CategoryId INT NOT NULL DEFAULT 1
-                        ALTER TABLE Recipe ADD CONSTRAINT FK_Recipe_Category_CategoryId FOREIGN KEY (CategoryId) REFERENCES Category(Id)
-                    END
-                END
-                ELSE
-                BEGIN
-                    -- Add CategoryId column if it doesn't exist
-                    IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'CategoryId')
-                    BEGIN
-                        ALTER TABLE Recipe ADD CategoryId INT NOT NULL DEFAULT 1
-                        ALTER TABLE Recipe ADD CONSTRAINT FK_Recipe_Category_CategoryId FOREIGN KEY (CategoryId) REFERENCES Category(Id)
-                    END
+                    ALTER TABLE Recipe ADD CategoryID INT NOT NULL DEFAULT 1
                 END");
-        }
-        else if (db.Database.ExecuteSqlRaw("SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'CategoryId'") == 0)
-        {
-            // Category column doesn't exist, just add CategoryId
-            db.Database.ExecuteSqlRaw(@"
-                ALTER TABLE Recipe ADD CategoryId INT NOT NULL DEFAULT 1
-                ALTER TABLE Recipe ADD CONSTRAINT FK_Recipe_Category_CategoryId FOREIGN KEY (CategoryId) REFERENCES Category(Id)");
         }
     }
     catch
     {
-        // Ignore errors
+        // Ignore migration errors
     }
 }
 

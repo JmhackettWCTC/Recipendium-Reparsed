@@ -676,3 +676,96 @@ label {
     color: $color-dark;
     letter-spacing: 0.01em;
 }
+
+// ==========================================
+// Recipe Form — Organized Layout
+// ==========================================
+
+.recipe-form {
+    max-width: 800px;
+}
+
+.form-section {
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: $space-xl;
+    margin: $space-xl 0;
+    background: rgba($color-surface, 0.5);
+    transition: box-shadow $transition-fast;
+
+    &:hover {
+        box-shadow: $shadow-sm;
+    }
+
+    legend {
+        font-size: $font-size-lg;
+        font-weight: 700;
+        color: $color-dark;
+        padding: 0 $space-md;
+        width: auto;
+    }
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-lg;
+
+    @media (max-width: $breakpoint-mobile) {
+        grid-template-columns: 1fr;
+        gap: $space-md;
+    }
+}
+
+.form-hint {
+    display: block;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    margin-top: $space-xs;
+    font-style: italic;
+}
+
+.form-actions {
+    display: flex;
+    gap: $space-md;
+    margin-top: $space-xl;
+    flex-wrap: wrap;
+
+    .btn {
+        min-width: 150px;
+    }
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, $color-link 0%, $color-link-soft 100%);
+
+    &:hover {
+        background: linear-gradient(135deg, $color-main 0%, $color-main-soft 100%);
+    }
+}
+
+.btn-secondary {
+    background: transparent;
+    color: $color-text;
+    border: 2px solid $color-border;
+
+    &:hover {
+        background: rgba($color-border, 0.1);
+        border-color: $color-link;
+        color: $color-link;
+    }
+}
+
+// File input styling
+input[type="file"] {
+    padding: $space-sm;
+    border: 2px dashed $color-border;
+    border-radius: $radius-md;
+    background: rgba($color-surface, 0.5);
+    cursor: pointer;
+    transition: border-color $transition-fast;
+
+    &:hover {
+        border-color: $color-link;
+    }
+}

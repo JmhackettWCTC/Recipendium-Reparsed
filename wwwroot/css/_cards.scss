@@ -127,6 +127,160 @@
 }
 
 // ==========================================
+// Card Image
+// ==========================================
+
+.card__image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background-color: rgba($color-main, 0.05);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform $transition-slow;
+    }
+
+    &:hover img {
+        transform: scale(1.05);
+    }
+}
+
+.card__image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba($color-main, 0.1) 0%, rgba($color-main, 0.05) 100%);
+
+    span {
+        font-size: 3rem;
+        opacity: 0.5;
+    }
+}
+
+// ==========================================
+// Recipe Filters Bar
+// ==========================================
+
+.recipe-filters {
+    background: rgba($color-main, 0.05);
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: $space-lg;
+    margin: $space-lg 0;
+}
+
+.filters-row {
+    display: flex;
+    gap: $space-xl;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    min-width: 200px;
+
+    label {
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $color-dark;
+    }
+
+    select {
+        padding: $space-sm $space-md;
+        border: 1px solid $color-border;
+        border-radius: $radius-md;
+        background-color: $color-surface;
+        color: $color-dark;
+        font-size: $font-size-sm;
+        cursor: pointer;
+        transition: border-color $transition-fast;
+
+        &:hover {
+            border-color: $color-main;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $color-main;
+            box-shadow: 0 0 0 3px rgba($color-main, 0.2);
+        }
+    }
+}
+
+// ==========================================
+// Recipe Count
+// ==========================================
+
+.recipe-count {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    margin: 0 0 $space-md 0;
+    font-style: italic;
+}
+
+// ==========================================
+// No Recipes Message
+// ==========================================
+
+.no-recipes {
+    text-align: center;
+    padding: $space-xl;
+    color: $color-text-muted;
+
+    p {
+        font-size: $font-size-lg;
+        margin-bottom: $space-lg;
+    }
+}
+
+// ==========================================
+// Recipe Meta (icons row)
+// ==========================================
+
+.recipe-meta {
+    display: flex;
+    gap: $space-md;
+    flex-wrap: wrap;
+    margin-bottom: $space-sm;
+
+    p {
+        margin: 0;
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .filters-row {
+        flex-direction: column;
+        gap: $space-md;
+    }
+
+    .filter-group {
+        width: 100%;
+        min-width: auto;
+
+        select {
+            width: 100%;
+        }
+    }
+
+    .recipe-meta {
+        flex-direction: column;
+        gap: $space-xs;
+    }
+}
+
+// ==========================================
 // Review Section
 // ==========================================
 

@@ -1,0 +1,34 @@
+@* Error Page *@
+@{
+    ViewData["Title"] = "Error";
+    int? statusCode = ViewData["StatusCode"] as int?;
+}
+
+<h2>Something went wrong</h2>
+
+@* Error Code Display *@
+<div class="error-code">
+    <strong>Error Code:</strong> @(statusCode ?? 500)
+</div>
+
+@* Error Message Based on Status Code *@
+<div class="error-message">
+    @if (statusCode == 404)
+    {
+        <p>The page you're looking for doesn't exist or has been moved.</p>
+    }
+    else if (statusCode == 500)
+    {
+        <p>An internal server error occurred. Please try again later.</p>
+    }
+    else
+    {
+        <p>An unexpected error occurred. Please try again later.</p>
+    }
+</div>
+
+@* Navigation Back *@
+<div class="form-group mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn">Return to Home</a>
+    <a asp-controller="Recipe" asp-action="Index" class="btn">View Recipes</a>
+</div>

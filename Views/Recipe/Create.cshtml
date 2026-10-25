@@ -11,69 +11,99 @@
 </header>
 
 @* Recipe Creation Form *@
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data" class="recipe-form">
     @* Basic Information Section *@
-    <div class="form-group mb-3">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
-        <span asp-validation-for="Name" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="CategoryId"></label>
-        <select asp-for="CategoryId">
-            <option value="">-- Select a Category --</option>
-            @foreach (var category in (ViewData["Categories"] as List<Recipendium_Reparsed.Models.Category> ?? new List<Recipendium_Reparsed.Models.Category>()))
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-        <span asp-validation-for="CategoryId" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Time"></label>
-        <input asp-for="Time" type="number" />
-        <span asp-validation-for="Time" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Servings"></label>
-        <input asp-for="Servings" type="number" />
-        <span asp-validation-for="Servings" class="error"></span>
-    </div>
+    <fieldset class="form-section">
+        <legend>Basic Information</legend>
+        <div class="form-grid">
+            <div class="form-group mb-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" placeholder="e.g., Chocolate Chip Cookies" />
+                <span asp-validation-for="Name" class="error"></span>
+                <small class="form-hint">A descriptive name for your recipe (2-100 characters).</small>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId">
+                    <option value="">-- Select a Category --</option>
+                    @foreach (var category in (ViewData["Categories"] as List<Recipendium_Reparsed.Models.Category> ?? new List<Recipendium_Reparsed.Models.Category>()))
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="error"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Time"></label>
+                <input asp-for="Time" type="number" min="1" placeholder="Minutes" />
+                <span asp-validation-for="Time" class="error"></span>
+                <small class="form-hint">Total preparation and cooking time in minutes.</small>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Servings"></label>
+                <input asp-for="Servings" type="number" min="1" placeholder="Number of servings" />
+                <span asp-validation-for="Servings" class="error"></span>
+                <small class="form-hint">How many servings this recipe makes.</small>
+            </div>
+        </div>
+    </fieldset>
 
     @* Recipe Content Section *@
-    <div class="form-group mb-3">
-        <label asp-for="Ingredients"></label>
-        <textarea asp-for="Ingredients" rows="3"></textarea>
-        <span asp-validation-for="Ingredients" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Instructions"></label>
-        <textarea asp-for="Instructions" rows="3"></textarea>
-        <span asp-validation-for="Instructions" class="error"></span>
-    </div>
+    <fieldset class="form-section">
+        <legend>Recipe Content</legend>
+        <div class="form-group mb-3">
+            <label asp-for="Ingredients"></label>
+            <textarea asp-for="Ingredients" rows="5" placeholder="Enter each ingredient on a new line&#10;e.g.,&#10;2 cups flour&#10;1 cup sugar&#10;1/2 cup butter"></textarea>
+            <span asp-validation-for="Ingredients" class="error"></span>
+            <small class="form-hint">List each ingredient on a separate line.</small>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Instructions"></label>
+            <textarea asp-for="Instructions" rows="8" placeholder="Enter each step separated by a pipe (|) character&#10;e.g.,&#10;Preheat oven to 375°F|Mix dry ingredients|Add wet ingredients|Bake for 12 minutes"></textarea>
+            <span asp-validation-for="Instructions" class="error"></span>
+            <small class="form-hint">Separate each step with a pipe (|) character.</small>
+        </div>
+    </fieldset>
 
     @* Description Section *@
-    <div class="form-group mb-3">
-        <label asp-for="ShortDescription"></label>
-        <input asp-for="ShortDescription" />
-        <span asp-validation-for="ShortDescription" class="error"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="LongDescription"></label>
-        <textarea asp-for="LongDescription" rows="3"></textarea>
-        <span asp-validation-for="LongDescription" class="error"></span>
-    </div>
+    <fieldset class="form-section">
+        <legend>Description</legend>
+        <div class="form-group mb-3">
+            <label asp-for="ShortDescription"></label>
+            <input asp-for="ShortDescription" placeholder="A brief summary shown on the recipe list" />
+            <span asp-validation-for="ShortDescription" class="error"></span>
+            <small class="form-hint">A short summary displayed on the recipe listing page (5-200 characters).</small>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="LongDescription"></label>
+            <textarea asp-for="LongDescription" rows="4" placeholder="A detailed description of the recipe"></textarea>
+            <span asp-validation-for="LongDescription" class="error"></span>
+            <small class="form-hint">A fuller description shown on the recipe details page.</small>
+        </div>
+    </fieldset>
 
-    @* Rating Section *@
-    <div class="form-group mb-3">
-        <label asp-for="Rating"></label>
-        <input asp-for="Rating" type="number" min="0" max="5" step="0.1" />
-        <span asp-validation-for="Rating" class="error"></span>
-    </div>
+    @* Optional Section *@
+    <fieldset class="form-section">
+        <legend>Optional</legend>
+        <div class="form-grid">
+            <div class="form-group mb-3">
+                <label asp-for="Rating"></label>
+                <input asp-for="Rating" type="number" min="0" max="5" step="0.1" placeholder="0 - 5" />
+                <span asp-validation-for="Rating" class="error"></span>
+                <small class="form-hint">Rate this recipe from 0 to 5 stars.</small>
+            </div>
+            <div class="form-group mb-3">
+                <label for="imageUpload">Recipe Image</label>
+                <input type="file" id="imageUpload" name="imageUpload" accept="image/*" />
+                <small class="form-hint">Upload an image for your recipe (optional).</small>
+            </div>
+        </div>
+    </fieldset>
 
-    @* Submit Button *@
-    <div class="form-group">
-        <button type="submit">Create</button>
+    @* Submit Buttons *@
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Create Recipe</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
     </div>
 </form>
 

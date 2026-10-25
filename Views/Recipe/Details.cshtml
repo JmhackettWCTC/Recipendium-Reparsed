@@ -3,9 +3,24 @@
 @{
     ViewData["Title"] = Model.Name;
     
-    @* Parse ingredients (comma-separated) and instructions (pipe-separated) *@
-    String[] ingredients = Model.Ingredients.Split(",");
-    String[] instructions = Model.Instructions.Split("|");
+    @* Parse ingredients - new recipes use newlines, old recipes may use pipes *@
+    string ingredientsRaw = Model.Ingredients.Replace("\r\n", "\n").Replace("\r", "\n").Trim();
+    string[] ingredients;
+    if (ingredientsRaw.Contains("\n"))
+    {
+        ingredients = ingredientsRaw.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+    }
+    else
+    {
+        ingredients = ingredientsRaw.Split('|', StringSplitOptions.RemoveEmptyEntries);
+    }
+    ingredients = ingredients.Select(i => i.Trim()).ToArray();
+
+    @* Parse instructions - data uses pipe (|) as separator *@
+    string[] instructions = Model.Instructions
+        .Split('|', StringSplitOptions.RemoveEmptyEntries)
+        .Select(i => i.Trim())
+        .ToArray();
 }
 
 @* Recipe Header with Metadata *@

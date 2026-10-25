@@ -46,6 +46,7 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.ShortDescription).HasColumnName("ShortDescription");
                 entity.Property(e => e.LongDescription).HasColumnName("LongDescription");
                 entity.Property(e => e.Rating).HasColumnName("Rating").HasDefaultValue(0);
+                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
                 entity.HasOne(r => r.Category)
                     .WithMany()
                     .HasForeignKey(r => r.CategoryId);
@@ -54,18 +55,10 @@ namespace Recipendium_Reparsed.Data
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("Category");
+                entity.Property(e => e.Id).HasColumnName("CategoryID");
                 entity.Property(e => e.Name).HasColumnName("Name");
+                entity.Property(e => e.Image).HasColumnName("image");
             });
-
-            // Seed default categories
-            modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Breakfast" },
-                new Category { Id = 2, Name = "Lunch" },
-                new Category { Id = 3, Name = "Dinner" },
-                new Category { Id = 4, Name = "Dessert" },
-                new Category { Id = 5, Name = "Snack" },
-                new Category { Id = 6, Name = "Drink" }
-            );
         }
 
         /// <summary>

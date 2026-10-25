@@ -39,12 +39,17 @@ namespace Recipendium_Reparsed.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasColumnName("CategoryID")
                         .HasAnnotation("SqlServer:Identity", "1, 1");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("image");
 
                     b.HasKey("Id");
 
@@ -59,7 +64,8 @@ namespace Recipendium_Reparsed.Migrations
                         .HasAnnotation("SqlServer:Identity", "1, 1");
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CategoryID");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
@@ -109,17 +115,6 @@ namespace Recipendium_Reparsed.Migrations
                     b.ToTable("Recipe");
                 });
 
-            modelBuilder.Entity("Recipendium_Reparsed.Models.Category", b =>
-                {
-                    b.HasData(
-                        new { Id = 1, Name = "Breakfast" },
-                        new { Id = 2, Name = "Lunch" },
-                        new { Id = 3, Name = "Dinner" },
-                        new { Id = 4, Name = "Dessert" },
-                        new { Id = 5, Name = "Snack" },
-                        new { Id = 6, Name = "Drink" }
-                    );
-                });
 
 #pragma warning restore 612, 618
         }

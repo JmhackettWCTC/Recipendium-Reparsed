@@ -24,14 +24,41 @@ public class RecipeController : Controller
     }
 
     /// <summary>
-    /// Displays a list of all recipes.
+    /// Displays a list of recipes with optional category filtering and sorting.
     /// GET: /Recipe/Index
     /// </summary>
-    public IActionResult Index()
+    public IActionResult Index(string? category, string? sort)
     {
         try
         {
-            return View(_context.Recipes.Include(r => r.Category).ToList());
+            var query = _context.Recipes.Include(r => r.Category).AsQueryable();
+
+            // Filter by category if specified
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(r => r.Category != null && r.Category.Name == category);
+            }
+
+            // Apply sorting
+            sort = sort ?? "nameAsc";
+            query = sort switch
+            {
+                "nameDesc" => query.OrderByDescending(r => r.Name),
+                "ratingAsc" => query.OrderBy(r => r.Rating),
+                "ratingDesc" => query.OrderByDescending(r => r.Rating),
+                "timeAsc" => query.OrderBy(r => r.Time),
+                "timeDesc" => query.OrderByDescending(r => r.Time),
+                _ => query.OrderBy(r => r.Name)
+            };
+
+            var recipes = query.ToList();
+
+            // Populate categories for filter dropdown
+            ViewData["Categories"] = _context.Categories.ToList();
+            ViewData["CurrentCategory"] = category;
+            ViewData["CurrentSort"] = sort;
+
+            return View(recipes);
         }
         catch (Exception ex)
         {
@@ -76,6 +103,23 @@ public class RecipeController : Controller
     }
 
     /// <summary>
+    /// Maps a CategoryId to its default image path.
+    /// </summary>
+    private string GetDefaultImageForCategory(int categoryId)
+    {
+        return categoryId switch
+        {
+            1 => "/images/categories/breakfast.svg",
+            2 => "/images/categories/lunch.svg",
+            3 => "/images/categories/dinner.svg",
+            4 => "/images/categories/dessert.svg",
+            5 => "/images/categories/snack.svg",
+            6 => "/images/categories/drink.svg",
+            _ => "/images/categories/dinner.svg"
+        };
+    }
+
+    /// <summary>
     /// Processes the create recipe form submission and saves the new recipe.
     /// POST: /Recipe/Create
     /// </summary>
@@ -90,6 +134,12 @@ public class RecipeController : Controller
 
         try
         {
+            // Assign default image based on category if no image is provided
+            if (string.IsNullOrEmpty(recipe.Image))
+            {
+                recipe.Image = GetDefaultImageForCategory(recipe.CategoryId);
+            }
+
             _context.Recipes.Add(recipe);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
