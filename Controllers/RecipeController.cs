@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Recipendium_Reparsed.Data;
 using Recipendium_Reparsed.Models;
@@ -30,7 +31,7 @@ public class RecipeController : Controller
     {
         try
         {
-            return View(_context.Recipes.ToList());
+            return View(_context.Recipes.Include(r => r.Category).ToList());
         }
         catch (Exception ex)
         {
@@ -47,7 +48,7 @@ public class RecipeController : Controller
     {
         try
         {
-            var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
+            var recipe = _context.Recipes.Include(r => r.Category).FirstOrDefault(t => t.Id == id);
 
             if (recipe == null)
             {
@@ -70,6 +71,7 @@ public class RecipeController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        ViewData["Categories"] = _context.Categories.ToList();
         return View();
     }
 
@@ -82,6 +84,7 @@ public class RecipeController : Controller
     {
         if (!ModelState.IsValid)
         {
+            ViewData["Categories"] = _context.Categories.ToList();
             return View(recipe);
         }
 
@@ -107,13 +110,14 @@ public class RecipeController : Controller
     {
         try
         {
-            var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
+            var recipe = _context.Recipes.Include(r => r.Category).FirstOrDefault(t => t.Id == id);
 
             if (recipe == null)
             {
                 return NotFound();
             }
 
+            ViewData["Categories"] = _context.Categories.ToList();
             return View(recipe);
         }
         catch (Exception ex)
@@ -132,6 +136,7 @@ public class RecipeController : Controller
     {
         if (!ModelState.IsValid)
         {
+            ViewData["Categories"] = _context.Categories.ToList();
             return View(recipe);
         }
 
@@ -157,7 +162,7 @@ public class RecipeController : Controller
     {
         try
         {
-            var recipe = _context.Recipes.FirstOrDefault(t => t.Id == id);
+            var recipe = _context.Recipes.Include(r => r.Category).FirstOrDefault(t => t.Id == id);
 
             if (recipe == null)
             {

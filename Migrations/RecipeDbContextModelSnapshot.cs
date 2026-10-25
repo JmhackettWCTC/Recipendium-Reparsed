@@ -34,6 +34,23 @@ namespace Recipendium_Reparsed.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Recipendium_Reparsed.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:Identity", "1, 1");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("Recipendium_Reparsed.Models.Recipe", b =>
                 {
                     b.Property<int>("Id")
@@ -41,16 +58,18 @@ namespace Recipendium_Reparsed.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:Identity", "1, 1");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ingredients")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instructions")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LongDescription")
@@ -83,7 +102,23 @@ namespace Recipendium_Reparsed.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasOne("Recipendium_Reparsed.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("Recipendium_Reparsed.Models.Category", b =>
+                {
+                    b.HasData(
+                        new { Id = 1, Name = "Breakfast" },
+                        new { Id = 2, Name = "Lunch" },
+                        new { Id = 3, Name = "Dinner" },
+                        new { Id = 4, Name = "Dessert" },
+                        new { Id = 5, Name = "Snack" },
+                        new { Id = 6, Name = "Drink" }
+                    );
                 });
 
 #pragma warning restore 612, 618

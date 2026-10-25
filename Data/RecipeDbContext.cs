@@ -17,6 +17,11 @@ namespace Recipendium_Reparsed.Data
         /// </summary>
         public DbSet<Recipe> Recipes { get; set; }
 
+        /// <summary>
+        /// Collection of Category entities.
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
         public RecipeDbContext(DbContextOptions<RecipeDbContext> options)
             : base(options)
         {
@@ -41,7 +46,26 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.ShortDescription).HasColumnName("ShortDescription");
                 entity.Property(e => e.LongDescription).HasColumnName("LongDescription");
                 entity.Property(e => e.Rating).HasColumnName("Rating").HasDefaultValue(0);
+                entity.HasOne(r => r.Category)
+                    .WithMany()
+                    .HasForeignKey(r => r.CategoryId);
             });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category");
+                entity.Property(e => e.Name).HasColumnName("Name");
+            });
+
+            // Seed default categories
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Breakfast" },
+                new Category { Id = 2, Name = "Lunch" },
+                new Category { Id = 3, Name = "Dinner" },
+                new Category { Id = 4, Name = "Dessert" },
+                new Category { Id = 5, Name = "Snack" },
+                new Category { Id = 6, Name = "Drink" }
+            );
         }
 
         /// <summary>

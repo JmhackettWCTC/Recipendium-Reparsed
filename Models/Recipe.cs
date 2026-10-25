@@ -21,10 +21,14 @@ public class Recipe
     public string Name { get; set; } = "";
 
     /// <summary>
-    /// Category the recipe belongs to (e.g. Breakfast, Lunch, Dinner).
+    /// Foreign key referencing the Category table.
     /// </summary>
-    [Display(Name = "Category")]
-    public string Category { get; set; } = "";
+    public int CategoryId { get; set; }
+
+    /// <summary>
+    /// Navigation property to the related Category.
+    /// </summary>
+    public Category? Category { get; set; }
 
     /// <summary>
     /// Preparation time in minutes (stored as string, converted to int for DB).
