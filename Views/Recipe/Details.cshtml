@@ -54,24 +54,44 @@
         <header>
             <h3>Ingredients</h3>
         </header>
-        <ul>
-            @foreach (var ingredient in ingredients)
-            {
-                <li>@ingredient</li>
-            }
-        </ul>
+        @if (ingredients.Length > 0)
+        {
+            <ul>
+                @foreach (var ingredient in ingredients)
+                {
+                    <li>@ingredient</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="empty-list">
+                <p>No ingredients listed for this recipe.</p>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit this recipe to add ingredients</a>
+            </div>
+        }
     </div>
     <div class="flex-1">
         @* Instructions List *@
         <header>
             <h3>Instructions</h3>
         </header>
-        <ol>
-            @foreach (var instruction in instructions)
-            {
-                <li>@instruction</li>
-            }
-        </ol>
+        @if (instructions.Length > 0)
+        {
+            <ol>
+                @foreach (var instruction in instructions)
+                {
+                    <li>@instruction</li>
+                }
+            </ol>
+        }
+        else
+        {
+            <div class="empty-list">
+                <p>No instructions listed for this recipe.</p>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit this recipe to add instructions</a>
+            </div>
+        }
     </div>
 </section>
 

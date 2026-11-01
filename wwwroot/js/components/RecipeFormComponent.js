@@ -38,7 +38,24 @@ export default {
                                 <small class="text-grey-7">A descriptive name for your recipe (2-100 characters).</small>
                             </div>
                             <div class="col-12 col-md-6">
+                                <div v-if="categories.length === 0" class="q-pa-md">
+                                    <q-banner rounded class="bg-warning text-white q-mb-md">
+                                        <template v-slot:avatar>
+                                            <q-icon name="warning" color="white" size="xs" />
+                                        </template>
+                                        No categories available. Create a category first.
+                                        <q-btn
+                                            flat
+                                            dense
+                                            color="white"
+                                            label="Create Category"
+                                            icon-right="arrow_forward"
+                                            @click="navigateTo('/Category/Create')"
+                                        />
+                                    </q-banner>
+                                </div>
                                 <q-select
+                                    v-else
                                     v-model="formData.categoryId"
                                     :options="categoryOptions"
                                     label="Category"

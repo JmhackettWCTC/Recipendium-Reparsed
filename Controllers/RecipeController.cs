@@ -130,7 +130,7 @@ public class RecipeController : Controller
     }
 
     /// <summary>
-    /// Processes the create recipe form submission and saves the new recipe.
+    /// Processes create a recipe form submission and saves the new recipe.
     /// POST: /Recipe/Create
     /// </summary>
     [HttpPost]
