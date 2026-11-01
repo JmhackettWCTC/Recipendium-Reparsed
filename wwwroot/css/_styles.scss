@@ -48,12 +48,14 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-article {
-    padding: $space-2xl $space-xl;
+article.site-width {
+    padding-top: $space-2xl;
+    padding-bottom: $space-2xl;
     flex: 1;
 
     @media (max-width: $breakpoint-mobile) {
-        padding: $space-xl $space-md;
+        padding-top: $space-xl;
+        padding-bottom: $space-xl;
     }
 }
 

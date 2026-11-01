@@ -9,8 +9,8 @@ export default {
                 <input type="hidden" name="CategoryId" v-model="formData.categoryId" />
                 <input type="hidden" name="Time" v-model="formData.time" />
                 <input type="hidden" name="Servings" v-model="formData.servings" />
-                <input type="hidden" name="Ingredients" v-model="formData.ingredients" />
-                <input type="hidden" name="Instructions" v-model="formData.instructions" />
+                <input type="hidden" name="Ingredients" :value="ingredientsString" />
+                <input type="hidden" name="Instructions" :value="instructionsString" />
                 <input type="hidden" name="ShortDescription" v-model="formData.shortDescription" />
                 <input type="hidden" name="LongDescription" v-model="formData.longDescription" />
                 <input type="hidden" name="Rating" v-model="formData.rating" />
@@ -117,36 +117,96 @@ export default {
                         </div>
                         <div class="row q-col-gutter-md">
                             <div class="col-12">
-                                <q-input
-                                    v-model="formData.ingredients"
-                                    label="Ingredients"
-                                    type="textarea"
-                                    rows="5"
-                                    placeholder="Enter each ingredient on a new line"
-                                    outlined
-                                    :rules="[val => !!val || 'Ingredients are required']"
-                                >
-                                    <template v-slot:prepend>
-                                        <q-icon name="checklist" />
-                                    </template>
-                                </q-input>
-                                <small class="text-grey-7">List each ingredient on a separate line.</small>
+                                <div class="flexible-input-section">
+                                    <div class="row items-center q-mb-sm">
+                                        <div class="col">
+                                            <label class="text-subtitle2 text-grey-8">Ingredients</label>
+                                            <small class="text-grey-7">Add each ingredient on its own line.</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <q-btn
+                                                color="primary"
+                                                icon="add"
+                                                label="Add Ingredient"
+                                                size="sm"
+                                                unelevated
+                                                @click="addIngredient"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div v-for="(ingredient, index) in ingredientList" :key="index" class="row items-center q-col-gutter-sm q-mb-sm">
+                                        <div class="col-1 col-auto">
+                                            <span class="text-caption text-grey-8">{{ index + 1 }}.</span>
+                                        </div>
+                                        <div class="col">
+                                            <q-input
+                                                v-model="ingredientList[index]"
+                                                outlined
+                                                dense
+                                                placeholder="e.g., 2 cups flour"
+                                            />
+                                        </div>
+                                        <div class="col-auto">
+                                            <q-btn
+                                                flat
+                                                dense
+                                                color="negative"
+                                                icon="delete"
+                                                @click="removeIngredient(index)"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div v-if="ingredientList.length === 0" class="text-caption text-grey-6 q-mt-sm">
+                                        No ingredients added yet. Click "Add Ingredient" to start.
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12">
-                                <q-input
-                                    v-model="formData.instructions"
-                                    label="Instructions"
-                                    type="textarea"
-                                    rows="8"
-                                    placeholder="Enter each step separated by a pipe (|) character"
-                                    outlined
-                                    :rules="[val => !!val || 'Instructions are required']"
-                                >
-                                    <template v-slot:prepend>
-                                        <q-icon name="how_to_reg" />
-                                    </template>
-                                </q-input>
-                                <small class="text-grey-7">Separate each step with a pipe (|) character.</small>
+                                <div class="flexible-input-section">
+                                    <div class="row items-center q-mb-sm">
+                                        <div class="col">
+                                            <label class="text-subtitle2 text-grey-8">Instructions</label>
+                                            <small class="text-grey-7">Add each step of the recipe.</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <q-btn
+                                                color="primary"
+                                                icon="add"
+                                                label="Add Step"
+                                                size="sm"
+                                                unelevated
+                                                @click="addInstruction"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div v-for="(instruction, index) in instructionList" :key="index" class="row items-center q-col-gutter-sm q-mb-sm">
+                                        <div class="col-1 col-auto">
+                                            <span class="text-caption text-grey-8">{{ index + 1 }}.</span>
+                                        </div>
+                                        <div class="col">
+                                            <q-input
+                                                v-model="instructionList[index]"
+                                                type="textarea"
+                                                outlined
+                                                dense
+                                                rows="2"
+                                                placeholder="Describe this step..."
+                                            />
+                                        </div>
+                                        <div class="col-auto">
+                                            <q-btn
+                                                flat
+                                                dense
+                                                color="negative"
+                                                icon="delete"
+                                                @click="removeInstruction(index)"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div v-if="instructionList.length === 0" class="text-caption text-grey-6 q-mt-sm">
+                                        No steps added yet. Click "Add Step" to start.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </q-card-section>
@@ -288,12 +348,12 @@ export default {
                 categoryId: '',
                 time: null,
                 servings: null,
-                ingredients: '',
-                instructions: '',
                 shortDescription: '',
                 longDescription: '',
                 rating: null
             },
+            ingredientList: [],
+            instructionList: [],
             imageFile: null
         };
     },
@@ -307,6 +367,12 @@ export default {
         },
         categoryOptions() {
             return this.categories.map(c => ({ label: c.name, value: c.id.toString() }));
+        },
+        ingredientsString() {
+            return this.ingredientList.filter(i => i.trim() !== '').join('\n');
+        },
+        instructionsString() {
+            return this.instructionList.filter(i => i.trim() !== '').join('|');
         }
     },
     mounted() {
@@ -319,12 +385,22 @@ export default {
                     categoryId: recipe.categoryId ? recipe.categoryId.toString() : '',
                     time: recipe.time || null,
                     servings: recipe.servings || null,
-                    ingredients: recipe.ingredients || '',
-                    instructions: recipe.instructions || '',
                     shortDescription: recipe.shortDescription || '',
                     longDescription: recipe.longDescription || '',
                     rating: recipe.rating || null
                 };
+                // Parse ingredients - support both newline and pipe separators
+                if (recipe.ingredients) {
+                    if (recipe.ingredients.includes('\n')) {
+                        this.ingredientList = recipe.ingredients.split('\n').map(i => i.trim()).filter(i => i !== '');
+                    } else {
+                        this.ingredientList = recipe.ingredients.split('|').map(i => i.trim()).filter(i => i !== '');
+                    }
+                }
+                // Parse instructions - pipe separator
+                if (recipe.instructions) {
+                    this.instructionList = recipe.instructions.split('|').map(i => i.trim()).filter(i => i !== '');
+                }
             } catch (e) {
                 console.error('Failed to parse recipe data:', e);
             }
@@ -333,6 +409,18 @@ export default {
     methods: {
         navigateTo(url) {
             window.location.href = url;
+        },
+        addIngredient() {
+            this.ingredientList.push('');
+        },
+        removeIngredient(index) {
+            this.ingredientList.splice(index, 1);
+        },
+        addInstruction() {
+            this.instructionList.push('');
+        },
+        removeInstruction(index) {
+            this.instructionList.splice(index, 1);
         },
         onSubmit() {
             // Find the parent Razor form and submit it

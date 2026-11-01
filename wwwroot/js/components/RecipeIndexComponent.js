@@ -3,46 +3,56 @@ export default {
     template: `
         <div class="recipe-index">
             <q-card class="filter-card q-mb-md" flat bordered>
-                <q-card-section>
-                    <div class="row q-col-gutter-md">
-                        <div class="col-12 col-md-4">
-                            <q-input
-                                v-model="searchQuery"
-                                label="Search recipes..."
-                                outlined
+                <q-card-section class="row items-center q-col-gutter-md">
+                    <div class="col-12 col-md-5">
+                        <q-input
+                            v-model="searchQuery"
+                            label="Search recipes..."
+                            outlined
+                            dense
+                            clearable
+                            placeholder="Search by name, ingredients, description"
+                            @update:model-value="onSearchDebounce"
+                        >
+                            <template v-slot:prepend>
+                                <q-icon name="search" />
+                            </template>
+                        </q-input>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <q-select
+                            v-model="selectedCategory"
+                            :options="categoryOptions"
+                            label="Category"
+                            outlined
+                            dense
+                            clearable
+                            emit-value
+                            map-options
+                            @update:model-value="onFilterChange"
+                        />
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <q-select
+                            v-model="selectedSort"
+                            :options="sortOptions"
+                            label="Sort by"
+                            outlined
+                            dense
+                            emit-value
+                            map-options
+                            @update:model-value="onFilterChange"
+                        />
+                    </div>
+                    <div class="col-12 col-md-1">
+                        <div class="text-right">
+                            <q-btn
+                                color="primary"
+                                icon="add"
+                                label="Add"
+                                unelevated
                                 dense
-                                clearable
-                                placeholder="Search by name, ingredients, description"
-                                @update:model-value="onSearchDebounce"
-                            >
-                                <template v-slot:prepend>
-                                    <q-icon name="search" />
-                                </template>
-                            </q-input>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <q-select
-                                v-model="selectedCategory"
-                                :options="categoryOptions"
-                                label="Filter by Category"
-                                outlined
-                                dense
-                                clearable
-                                emit-value
-                                map-options
-                                @update:model-value="onFilterChange"
-                            />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <q-select
-                                v-model="selectedSort"
-                                :options="sortOptions"
-                                label="Sort by"
-                                outlined
-                                dense
-                                emit-value
-                                map-options
-                                @update:model-value="onFilterChange"
+                                @click="navigateTo(addRecipeUrl)"
                             />
                         </div>
                     </div>
@@ -69,7 +79,7 @@ export default {
             </div>
 
             <div v-if="recipeCount > 0" class="row q-col-gutter-md">
-                <div v-for="recipe in recipes" :key="recipe.id" class="col-12 col-md-6 col-lg-4">
+                <div v-for="recipe in recipes" :key="recipe.id" class="col-12 col-md-4 col-lg-3">
                     <q-card class="recipe-card">
                         <!-- Recipe Image -->
                         <q-img

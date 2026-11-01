@@ -6,14 +6,14 @@
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: $space-xl;
     padding: $space-md 0;
 }
 
 @media (max-width: $breakpoint-tablet) {
     .cards {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: $space-lg;
     }
 }
@@ -38,6 +38,7 @@
     transition: all $transition-slow;
     display: flex;
     flex-direction: column;
+    min-height: 320px;
 
     &:hover {
         box-shadow: $shadow-card-hover;
@@ -448,6 +449,17 @@
 }
 
 // ==========================================
+// Filter Card — Compact Single Row
+// ==========================================
+
+.filter-card {
+    .q-card__section {
+        padding-top: $space-sm;
+        padding-bottom: $space-sm;
+    }
+}
+
+// ==========================================
 // Quasar Card Overrides — Uniform Height
 // ==========================================
 
@@ -456,11 +468,28 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    transition: all $transition-default;
+
+    &:hover {
+        box-shadow: $shadow-card-hover;
+        transform: translateY(-4px);
+    }
 }
 
 .recipe-card .q-card__section,
 .category-card .q-card__section {
     flex: 1;
+}
+
+// ==========================================
+// Recipe Index — Card Grid
+// ==========================================
+
+.recipe-index {
+    .row.q-col-gutter-md {
+        // Ensure consistent card heights in the grid
+        align-items: stretch;
+    }
 }
 
 // ==========================================

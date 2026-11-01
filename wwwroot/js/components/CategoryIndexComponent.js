@@ -22,7 +22,7 @@ export default {
             </div>
 
             <div v-if="categoryCount > 0" class="row q-col-gutter-md">
-                <div v-for="category in categories" :key="category.id" class="col-12 col-md-6 col-lg-4">
+                <div v-for="category in categories" :key="category.id" class="col-12 col-md-4">
                     <q-card class="category-card">
                         <q-card-section>
                             <div class="row justify-between items-center q-mb-sm">
