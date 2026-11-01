@@ -2,7 +2,7 @@
 
 ## Live URL
 
-The application is deployed and available at:
+The application is deployed and available at: https://ff-web-jh1330.azurewebsites.net/
 
 ## Three Things Fixed and Implemented
 
