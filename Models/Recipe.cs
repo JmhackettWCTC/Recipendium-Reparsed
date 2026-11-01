@@ -87,4 +87,15 @@ public class Recipe
     [Range(0, 5, ErrorMessage = "Rating must be between 0 and 5.")]
     [Display(Name = "Rating")]
     public double Rating { get; set; }
+
+    /// <summary>
+    /// Whether this recipe should be featured on the home page.
+    /// </summary>
+    [Display(Name = "Featured")]
+    public bool Featured { get; set; }
+
+    /// <summary>
+    /// Navigation property for sub-recipes (e.g., dressings, sauces) within this recipe.
+    /// </summary>
+    public ICollection<SubRecipe> SubRecipes { get; set; } = new List<SubRecipe>();
 }

@@ -1,9 +1,10 @@
 @{
     ViewData["Title"] = "Home Page";
+    var featuredRecipes = ViewData["FeaturedRecipes"] ?? "[]";
 }
 
 <div id="app">
-    <home-page></home-page>
+    <home-page featured-recipes="@featuredRecipes"></home-page>
 </div>
 
 @section Scripts {

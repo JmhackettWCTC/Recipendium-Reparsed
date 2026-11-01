@@ -769,3 +769,66 @@ input[type="file"] {
         border-color: $color-link;
     }
 }
+
+// ==========================================
+// Sub-Recipe Cards
+// ==========================================
+
+.sub-recipes-section {
+    margin-top: $space-xl;
+    padding-top: $space-xl;
+    border-top: 2px solid $color-border;
+}
+
+.sub-recipes-section > header {
+    margin-bottom: $space-lg;
+}
+
+.sub-recipes-section > header h3 {
+    font-size: $font-size-xl;
+    font-weight: 600;
+    color: $color-dark;
+}
+
+.sub-recipe-card {
+    background: rgba($color-surface, 0.5);
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: $space-xl;
+    margin-bottom: $space-lg;
+    box-shadow: $shadow-sm;
+    transition: all $transition-default;
+
+    &:hover {
+        box-shadow: $shadow-md;
+        transform: translateY(-2px);
+    }
+
+    > header {
+        margin-bottom: $space-md;
+        padding-bottom: $space-sm;
+        border-bottom: 1px solid $color-border;
+    }
+
+    > header h4 {
+        font-size: $font-size-lg;
+        font-weight: 600;
+        color: $color-main;
+        margin: 0;
+    }
+
+    h5 {
+        font-size: $font-size-base;
+        font-weight: 600;
+        color: $color-dark;
+        margin-bottom: $space-sm;
+    }
+
+    ul, ol {
+        margin-left: $space-lg;
+    }
+
+    li {
+        margin-bottom: $space-xs;
+    }
+}

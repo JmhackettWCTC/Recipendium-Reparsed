@@ -85,7 +85,7 @@ public class RecipeController : Controller
     {
         try
         {
-            var recipe = _context.Recipes.Include(r => r.Category).FirstOrDefault(t => t.Id == id);
+            var recipe = _context.Recipes.Include(r => r.Category).Include(r => r.SubRecipes).FirstOrDefault(t => t.Id == id);
 
             if (recipe == null)
             {
@@ -170,7 +170,7 @@ public class RecipeController : Controller
     {
         try
         {
-            var recipe = _context.Recipes.Include(r => r.Category).FirstOrDefault(t => t.Id == id);
+            var recipe = _context.Recipes.Include(r => r.Category).Include(r => r.SubRecipes).FirstOrDefault(t => t.Id == id);
 
             if (recipe == null)
             {
@@ -185,6 +185,45 @@ public class RecipeController : Controller
             _logger.LogError(ex, "An error occurred while retrieving recipe for editing with ID: {RecipeId}", id);
             return RedirectToAction(nameof(HomeController.Error), "Home");
         }
+    }
+
+    /// <summary>
+    /// Parses sub-recipe data from form fields and returns a list of SubRecipe objects.
+    /// </summary>
+    private List<SubRecipe> ParseSubRecipes(int recipeId)
+    {
+        var subRecipes = new List<SubRecipe>();
+        int index = 0;
+        
+        while (true)
+        {
+            var nameKey = $"SubRecipes[{index}].Name";
+            var nameValues = Request.Form[nameKey];
+            var nameVal = nameValues.Count > 0 ? nameValues[0] : null;
+            
+            if (string.IsNullOrEmpty(nameVal))
+                break;
+            
+            var ingredientsKey = $"SubRecipes[{index}].Ingredients";
+            var ingredientsValues = Request.Form[ingredientsKey];
+            var ingredientsVal = ingredientsValues.Count > 0 ? ingredientsValues[0] : "";
+            
+            var instructionsKey = $"SubRecipes[{index}].Instructions";
+            var instructionsValues = Request.Form[instructionsKey];
+            var instructionsVal = instructionsValues.Count > 0 ? instructionsValues[0] : "";
+            
+            subRecipes.Add(new SubRecipe
+            {
+                RecipeId = recipeId,
+                Name = nameVal,
+                Ingredients = ingredientsVal,
+                Instructions = instructionsVal,
+                Order = index
+            });
+            index++;
+        }
+        
+        return subRecipes;
     }
 
     /// <summary>
@@ -203,6 +242,17 @@ public class RecipeController : Controller
         try
         {
             _context.Recipes.Update(recipe);
+            
+            // Update sub-recipes: remove old ones and add new ones
+            var existingSubRecipes = _context.SubRecipes.Where(s => s.RecipeId == recipe.Id).ToList();
+            _context.SubRecipes.RemoveRange(existingSubRecipes);
+            
+            var newSubRecipes = ParseSubRecipes(recipe.Id);
+            if (newSubRecipes.Count > 0)
+            {
+                _context.SubRecipes.AddRange(newSubRecipes);
+            }
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -5,6 +5,16 @@
     ViewData["Title"] = "Edit Recipe";
     var categories = ViewData["Categories"] as List<Recipendium_Reparsed.Models.Category> ?? new List<Recipendium_Reparsed.Models.Category>();
     var categoriesJson = System.Text.Json.JsonSerializer.Serialize(categories.Select(c => new { id = c.Id, name = c.Name }));
+    object subRecipesData;
+    if (Model.SubRecipes != null && Model.SubRecipes.Any())
+    {
+        subRecipesData = Model.SubRecipes.Select(s => new { name = s.Name, ingredients = s.Ingredients, instructions = s.Instructions }).ToList();
+    }
+    else
+    {
+        subRecipesData = new List<object>();
+    }
+
     var recipeJson = System.Text.Json.JsonSerializer.Serialize(new {
         id = Model.Id,
         name = Model.Name,
@@ -15,7 +25,9 @@
         instructions = Model.Instructions,
         shortDescription = Model.ShortDescription,
         longDescription = Model.LongDescription,
-        rating = Model.Rating
+        rating = Model.Rating,
+        featured = Model.Featured,
+        subRecipes = subRecipesData
     });
 }
 

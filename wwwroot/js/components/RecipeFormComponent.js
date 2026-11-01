@@ -14,6 +14,14 @@ export default {
                 <input type="hidden" name="ShortDescription" v-model="formData.shortDescription" />
                 <input type="hidden" name="LongDescription" v-model="formData.longDescription" />
                 <input type="hidden" name="Rating" v-model="formData.rating" />
+                <input type="hidden" name="Featured" :value="formData.featured ? 'true' : 'false'" />
+
+                <!-- Hidden inputs for sub-recipes -->
+                <template v-for="(sub, index) in subRecipeList" :key="index">
+                    <input type="hidden" :name="'SubRecipes[' + index + '].Name'" :value="sub.name" />
+                    <input type="hidden" :name="'SubRecipes[' + index + '].Ingredients'" :value="sub.ingredientsString" />
+                    <input type="hidden" :name="'SubRecipes[' + index + '].Instructions'" :value="sub.instructionsString" />
+                </template>
 
                 <!-- Basic Information Section -->
                     <q-card-section>
@@ -255,6 +263,135 @@ export default {
 
                     <q-separator />
 
+                    <!-- Sub-Recipes Section -->
+                    <q-card-section>
+                        <div class="text-h6 q-mb-md">
+                            <q-icon name="layers" color="primary" class="q-mr-sm" />
+                            Sub-Recipes
+                        </div>
+                        <small class="text-grey-7 q-mb-md">Add sub-recipes for components made separately (e.g., dressings, sauces, marinades).</small>
+
+                        <div v-for="(sub, index) in subRecipeList" :key="index" class="sub-recipe-card q-mb-md">
+                            <q-card flat bordered>
+                                <q-card-section>
+                                    <div class="row items-center q-mb-md">
+                                        <div class="col-10">
+                                            <q-input
+                                                v-model="subRecipeList[index].name"
+                                                label="Sub-Recipe Name"
+                                                placeholder="e.g., Vinaigrette Dressing"
+                                                outlined
+                                                dense
+                                            />
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            <q-btn
+                                                flat
+                                                dense
+                                                color="negative"
+                                                icon="delete"
+                                                label="Remove"
+                                                @click="removeSubRecipe(index)"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="row q-col-gutter-md">
+                                        <div class="col-12">
+                                            <div class="row items-center q-mb-sm">
+                                                <div class="col">
+                                                    <label class="text-subtitle2 text-grey-8">Ingredients</label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <q-btn
+                                                        color="primary"
+                                                        icon="add"
+                                                        label="Add"
+                                                        size="sm"
+                                                        unelevated
+                                                        @click="addSubIngredient(index)"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div v-for="(ing, iIndex) in subRecipeList[index].ingredientList" :key="iIndex" class="row items-center q-col-gutter-sm q-mb-sm">
+                                                <div class="col">
+                                                    <q-input
+                                                        v-model="subRecipeList[index].ingredientList[iIndex]"
+                                                        outlined
+                                                        dense
+                                                        placeholder="e.g., 2 tbsp olive oil"
+                                                    />
+                                                </div>
+                                                <div class="col-auto">
+                                                    <q-btn
+                                                        flat
+                                                        dense
+                                                        color="negative"
+                                                        icon="delete"
+                                                        @click="removeSubIngredient(index, iIndex)"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row items-center q-mb-sm">
+                                                <div class="col">
+                                                    <label class="text-subtitle2 text-grey-8">Instructions</label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <q-btn
+                                                        color="primary"
+                                                        icon="add"
+                                                        label="Add Step"
+                                                        size="sm"
+                                                        unelevated
+                                                        @click="addSubInstruction(index)"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div v-for="(inst, iIndex) in subRecipeList[index].instructionList" :key="iIndex" class="row items-center q-col-gutter-sm q-mb-sm">
+                                                <div class="col">
+                                                    <q-input
+                                                        v-model="subRecipeList[index].instructionList[iIndex]"
+                                                        type="textarea"
+                                                        outlined
+                                                        dense
+                                                        rows="2"
+                                                        placeholder="Describe this step..."
+                                                    />
+                                                </div>
+                                                <div class="col-auto">
+                                                    <q-btn
+                                                        flat
+                                                        dense
+                                                        color="negative"
+                                                        icon="delete"
+                                                        @click="removeSubInstruction(index, iIndex)"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </q-card-section>
+                            </q-card>
+                        </div>
+
+                        <div v-if="subRecipeList.length === 0" class="text-center q-pa-md">
+                            <p class="text-grey-7">No sub-recipes added yet.</p>
+                        </div>
+
+                        <q-btn
+                            color="secondary"
+                            icon="add"
+                            label="Add Sub-Recipe"
+                            unelevated
+                            outline
+                            @click="addSubRecipe"
+                        />
+                    </q-card-section>
+
+                    <q-separator />
+
                     <!-- Optional Section -->
                     <q-card-section>
                         <div class="text-h6 q-mb-md">
@@ -293,6 +430,16 @@ export default {
                                     </template>
                                 </q-file>
                                 <small class="text-grey-7">Upload an image for your recipe (optional).</small>
+                            </div>
+                            <div class="col-12">
+                                <q-toggle
+                                    v-model="formData.featured"
+                                    label="Featured — Show on home page"
+                                    color="warning"
+                                    icon="star"
+                                    icon-right="star_border"
+                                />
+                                <small class="text-grey-7">Featured recipes will appear on the home page.</small>
                             </div>
                         </div>
                     </q-card-section>
@@ -350,11 +497,13 @@ export default {
                 servings: null,
                 shortDescription: '',
                 longDescription: '',
-                rating: null
+                rating: null,
+                featured: false
             },
             ingredientList: [],
             instructionList: [],
-            imageFile: null
+            imageFile: null,
+            subRecipeList: []
         };
     },
     computed: {
@@ -376,6 +525,18 @@ export default {
             return this.instructionList.filter(i => i.trim() !== '').join('|');
         }
     },
+    watch: {
+        subRecipeList: {
+            deep: true,
+            handler() {
+                // Add computed strings to each sub-recipe for hidden inputs
+                this.subRecipeList.forEach(sub => {
+                    sub.ingredientsString = sub.ingredientList.filter(i => i.trim() !== '').join('\n');
+                    sub.instructionsString = sub.instructionList.filter(i => i.trim() !== '').join('|');
+                });
+            }
+        }
+    },
     mounted() {
         // If editing, populate form with existing data
         if (this.recipeJson && this.recipeJson !== 'null') {
@@ -388,7 +549,8 @@ export default {
                     servings: recipe.servings || null,
                     shortDescription: recipe.shortDescription || '',
                     longDescription: recipe.longDescription || '',
-                    rating: recipe.rating || null
+                    rating: recipe.rating || null,
+                    featured: recipe.featured || false
                 };
                 // Parse ingredients - support both newline and pipe separators
                 if (recipe.ingredients) {
@@ -401,6 +563,28 @@ export default {
                 // Parse instructions - pipe separator
                 if (recipe.instructions) {
                     this.instructionList = recipe.instructions.split('|').map(i => i.trim()).filter(i => i !== '');
+                }
+                // Parse sub-recipes
+                if (recipe.subRecipes && Array.isArray(recipe.subRecipes)) {
+                    this.subRecipeList = recipe.subRecipes.map(sub => {
+                        let ingredientList = [];
+                        if (sub.ingredients) {
+                            if (sub.ingredients.includes('\n')) {
+                                ingredientList = sub.ingredients.split('\n').map(i => i.trim()).filter(i => i !== '');
+                            } else {
+                                ingredientList = sub.ingredients.split('|').map(i => i.trim()).filter(i => i !== '');
+                            }
+                        }
+                        let instructionList = [];
+                        if (sub.instructions) {
+                            instructionList = sub.instructions.split('|').map(i => i.trim()).filter(i => i !== '');
+                        }
+                        return {
+                            name: sub.name || '',
+                            ingredientList,
+                            instructionList
+                        };
+                    });
                 }
             } catch (e) {
                 console.error('Failed to parse recipe data:', e);
@@ -422,6 +606,28 @@ export default {
         },
         removeInstruction(index) {
             this.instructionList.splice(index, 1);
+        },
+        addSubRecipe() {
+            this.subRecipeList.push({
+                name: '',
+                ingredientList: [],
+                instructionList: []
+            });
+        },
+        removeSubRecipe(index) {
+            this.subRecipeList.splice(index, 1);
+        },
+        addSubIngredient(subIndex) {
+            this.subRecipeList[subIndex].ingredientList.push('');
+        },
+        removeSubIngredient(subIndex, ingIndex) {
+            this.subRecipeList[subIndex].ingredientList.splice(ingIndex, 1);
+        },
+        addSubInstruction(subIndex) {
+            this.subRecipeList[subIndex].instructionList.push('');
+        },
+        removeSubInstruction(subIndex, instIndex) {
+            this.subRecipeList[subIndex].instructionList.splice(instIndex, 1);
         },
         onSubmit() {
             // Find the parent Razor form and submit it

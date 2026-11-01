@@ -43,6 +43,29 @@ using (var scope = app.Services.CreateScope())
         // Update any NULL values to empty strings
         db.Database.ExecuteSqlRaw("UPDATE Category SET Description = '' WHERE Description IS NULL");
         db.Database.ExecuteSqlRaw("UPDATE Category SET Slug = '' WHERE Slug IS NULL");
+
+        // Ensure Featured column exists on Recipe table
+        db.Database.ExecuteSqlRaw(@"
+            IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Recipe') AND name = 'Featured')
+            BEGIN
+                ALTER TABLE Recipe ADD Featured BIT NOT NULL DEFAULT 0
+            END");
+
+        // Ensure SubRecipe table exists
+        db.Database.ExecuteSqlRaw(@"
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'SubRecipe')
+            BEGIN
+                CREATE TABLE SubRecipe (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    RecipeID INT NOT NULL,
+                    Name NVARCHAR(100) NOT NULL,
+                    Ingredients NVARCHAR(MAX) NOT NULL,
+                    Instructions NVARCHAR(MAX) NOT NULL,
+                    [Order] INT NOT NULL,
+                    CONSTRAINT FK_SubRecipe_Recipe_RecipeID FOREIGN KEY (RecipeID) REFERENCES Recipe(Id) ON DELETE CASCADE
+                )
+                CREATE INDEX IX_SubRecipe_RecipeID ON SubRecipe(RecipeID)
+            END");
     }
     catch
     {

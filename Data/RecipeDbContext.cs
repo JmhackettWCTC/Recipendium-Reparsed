@@ -21,6 +21,11 @@ namespace Recipendium_Reparsed.Data
         /// </summary>
         public DbSet<Category> Categories { get; set; }
 
+        /// <summary>
+        /// Collection of SubRecipe entities.
+        /// </summary>
+        public DbSet<SubRecipe> SubRecipes { get; set; }
+
         public RecipeDbContext(DbContextOptions<RecipeDbContext> options)
             : base(options)
         {
@@ -45,6 +50,7 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.ShortDescription).HasColumnName("ShortDescription");
                 entity.Property(e => e.LongDescription).HasColumnName("LongDescription");
                 entity.Property(e => e.Rating).HasColumnName("Rating").HasDefaultValue(0);
+                entity.Property(e => e.Featured).HasColumnName("Featured").HasDefaultValue(false);
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
                 entity.HasOne(r => r.Category)
                     .WithMany(c => c.Recipes)
@@ -59,6 +65,20 @@ namespace Recipendium_Reparsed.Data
                 entity.Property(e => e.Image).HasColumnName("image");
                 entity.Property(e => e.Description).HasColumnName("Description");
                 entity.Property(e => e.Slug).HasColumnName("Slug");
+            });
+
+            modelBuilder.Entity<SubRecipe>(entity =>
+            {
+                entity.ToTable("SubRecipe");
+                entity.Property(e => e.Name).HasColumnName("Name");
+                entity.Property(e => e.Ingredients).HasColumnName("Ingredients");
+                entity.Property(e => e.Instructions).HasColumnName("Instructions");
+                entity.Property(e => e.Order).HasColumnName("Order");
+                entity.Property(e => e.RecipeId).HasColumnName("RecipeID");
+                entity.HasOne(s => s.Recipe)
+                    .WithMany(r => r.SubRecipes)
+                    .HasForeignKey(s => s.RecipeId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
 

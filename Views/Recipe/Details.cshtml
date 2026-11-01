@@ -95,5 +95,74 @@
     </div>
 </section>
 
+@* Sub-Recipes Section *@
+@if (Model.SubRecipes != null && Model.SubRecipes.Any())
+{
+    <section class="sub-recipes-section">
+        <header>
+            <h3>Sub-Recipes</h3>
+        </header>
+        @foreach (var subRecipe in Model.SubRecipes.OrderBy(s => s.Order))
+        {
+            string subIngredientsRaw = subRecipe.Ingredients.Replace("\r\n", "\n").Replace("\r", "\n").Trim();
+            string[] subIngredients;
+            if (subIngredientsRaw.Contains("\n"))
+            {
+                subIngredients = subIngredientsRaw.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            }
+            else
+            {
+                subIngredients = subIngredientsRaw.Split('|', StringSplitOptions.RemoveEmptyEntries);
+            }
+            subIngredients = subIngredients.Select(i => i.Trim()).ToArray();
+
+            string[] subInstructions = subRecipe.Instructions
+                .Split('|', StringSplitOptions.RemoveEmptyEntries)
+                .Select(i => i.Trim())
+                .ToArray();
+
+            <div class="sub-recipe-card">
+                <header>
+                    <h4>@subRecipe.Name</h4>
+                </header>
+                <div class="row">
+                    <div class="flex-1">
+                        <h5>Ingredients</h5>
+                        @if (subIngredients.Length > 0)
+                        {
+                            <ul>
+                                @foreach (var ingredient in subIngredients)
+                                {
+                                    <li>@ingredient</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No ingredients listed.</p>
+                        }
+                    </div>
+                    <div class="flex-1">
+                        <h5>Instructions</h5>
+                        @if (subInstructions.Length > 0)
+                        {
+                            <ol>
+                                @foreach (var instruction in subInstructions)
+                                {
+                                    <li>@instruction</li>
+                                }
+                            </ol>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No instructions listed.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+}
+
 @* Navigation Back Button *@
 <a class="back-btn" asp-action="Index">← Back to Recipes</a>
