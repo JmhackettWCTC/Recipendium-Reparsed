@@ -22,8 +22,8 @@
 <form asp-action="Edit" enctype="multipart/form-data">
     <div id="app">
         <recipe-form
-            :recipe-json='@Html.Raw(recipeJson)'
-            :categories-json='@Html.Raw(categoriesJson)'
+            recipe-json='@Html.Raw(recipeJson)'
+            categories-json='@Html.Raw(categoriesJson)'
             is-create="false"
             submit-label="Save Changes"
             submit-icon="save"

@@ -362,6 +362,7 @@ export default {
             try {
                 return JSON.parse(this.categoriesJson);
             } catch (e) {
+                console.error('Failed to parse categories:', e);
                 return [];
             }
         },

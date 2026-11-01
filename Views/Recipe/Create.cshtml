@@ -10,7 +10,7 @@
 <form asp-action="Create" enctype="multipart/form-data">
     <div id="app">
         <recipe-form
-            :categories-json='@Html.Raw(categoriesJson)'
+            categories-json='@Html.Raw(categoriesJson)'
             is-create="true"
             submit-label="Create Recipe"
             submit-icon="add_circle"
