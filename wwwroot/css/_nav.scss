@@ -183,6 +183,70 @@ nav > ul > li > a.active {
 }
 
 // ==========================================
+// Authentication Nav Items
+// ==========================================
+
+.nav-login-link {
+    padding: $space-sm $space-lg;
+    display: inline-block;
+    text-decoration: none;
+    color: rgba($color-light, 0.85);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    border-radius: $radius-xl;
+    transition: all $transition-fast;
+    letter-spacing: 0.01em;
+
+    &:hover {
+        color: $color-light;
+        background: rgba($color-light, 0.12);
+    }
+
+    &:active {
+        background: rgba($color-light, 0.08);
+    }
+}
+
+.nav-user {
+    padding: $space-sm $space-lg;
+    display: inline-block;
+    color: rgba($color-light, 0.85);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.nav-signout-form {
+    display: inline;
+    margin: 0;
+}
+
+.btn-signout {
+    padding: $space-sm $space-lg;
+    display: inline-block;
+    text-decoration: none;
+    color: rgba($color-light, 0.85);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    border-radius: $radius-xl;
+    transition: all $transition-fast;
+    letter-spacing: 0.01em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: $font-family;
+
+    &:hover {
+        color: $color-light;
+        background: rgba($color-light, 0.12);
+    }
+
+    &:active {
+        background: rgba($color-light, 0.08);
+    }
+}
+
+// ==========================================
 // Side Panel
 // ==========================================
 
