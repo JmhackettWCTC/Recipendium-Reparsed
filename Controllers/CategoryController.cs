@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ namespace Recipendium_Reparsed.Controllers;
 /// <summary>
 /// Handles all category-related operations including listing, creating, editing, and deleting categories.
 /// </summary>
+[Authorize]
 public class CategoryController : Controller
 {
     private readonly RecipeDbContext _context;
@@ -27,6 +29,7 @@ public class CategoryController : Controller
     /// Displays a list of all categories.
     /// GET: /Category/Index
     /// </summary>
+    [AllowAnonymous]
     public IActionResult Index()
     {
         try
@@ -45,6 +48,7 @@ public class CategoryController : Controller
     /// Displays detailed information about a specific category.
     /// GET: /Category/Details/5
     /// </summary>
+    [AllowAnonymous]
     public IActionResult Details(int id)
     {
         try
