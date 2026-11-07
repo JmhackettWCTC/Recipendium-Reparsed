@@ -1,5 +1,6 @@
 
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Recipendium_Reparsed.Models;
 
@@ -9,7 +10,7 @@ namespace Recipendium_Reparsed.Data
     /// Database context for the Recipendium application.
     /// Manages Recipe entities.
     /// </summary>
-    public class RecipeDbContext : DbContext
+    public class RecipeDbContext : IdentityDbContext<Recipendium_Reparsed.Models.ApplicationUser>
     {
         /// <summary>
         /// Collection of Recipe entities.
@@ -36,6 +37,7 @@ namespace Recipendium_Reparsed.Data
         /// </summary>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // base.OnModelCreating must be called first for Identity to work correctly
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Recipe>(entity =>
