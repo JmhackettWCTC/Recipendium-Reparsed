@@ -17,6 +17,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 var app = builder.Build();
 
+// Seed Admin role and assign it to the configured email
+using (var seederScope = app.Services.CreateScope())
+{
+    await RoleSeeder.SeedAsync(seederScope.ServiceProvider, builder.Configuration);
+}
+
 // Ensure database is ready
 using (var scope = app.Services.CreateScope())
 {
