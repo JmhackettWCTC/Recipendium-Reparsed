@@ -420,6 +420,69 @@ fieldset legend {
     box-shadow: 0 0 0 3px rgba($color-danger, 0.15) !important;
 }
 
+// ==========================================
+// Alert Boxes
+// ==========================================
+
+.alert {
+    padding: $space-md $space-lg;
+    margin-bottom: $space-lg;
+    border-radius: $radius-md;
+    font-size: $font-size-base;
+    font-weight: 500;
+    display: flex;
+    align-items: flex-start;
+    gap: $space-md;
+    box-shadow: $shadow-sm;
+    animation: slideDown $transition-default ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-danger {
+    background: rgba($color-danger, 0.08);
+    border: 1px solid rgba($color-danger, 0.3);
+    color: $color-danger;
+    
+    &::before {
+        content: "⚠";
+        font-size: $font-size-lg;
+        flex-shrink: 0;
+    }
+}
+
+.alert-success {
+    background: rgba($color-success, 0.08);
+    border: 1px solid rgba($color-success, 0.3);
+    color: $color-success;
+    
+    &::before {
+        content: "✓";
+        font-size: $font-size-lg;
+        flex-shrink: 0;
+    }
+}
+
+// Validation summary styling
+.validation-summary-errors {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+        margin-bottom: $space-xs;
+    }
+}
+
 .menacingBtn {
     background: linear-gradient(135deg, $color-danger 0%, $color-danger-soft 100%);
     color: $color-surface;

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --color-dark: #2d2018;
   --color-light: #faf9f7;
@@ -390,6 +391,60 @@ fieldset legend {
 .errorText {
   border-color: #e63946 !important;
   box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15) !important;
+}
+
+.alert {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  animation: slideDown 250ms ease ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.alert-danger {
+  background: rgba(230, 57, 70, 0.08);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  color: #e63946;
+}
+.alert-danger::before {
+  content: "⚠";
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.alert-success {
+  background: rgba(90, 158, 75, 0.08);
+  border: 1px solid rgba(90, 158, 75, 0.3);
+  color: #5a9e4b;
+}
+.alert-success::before {
+  content: "✓";
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.validation-summary-errors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.validation-summary-errors li {
+  margin-bottom: 0.25rem;
 }
 
 .menacingBtn {

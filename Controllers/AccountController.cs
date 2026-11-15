@@ -81,7 +81,19 @@ namespace Recipendium_Reparsed.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError("", "Invalid login attempt.");
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("", "Your account has been temporarily locked due to too many failed login attempts. Please try again later.");
+            }
+            else if (result.IsNotAllowed)
+            {
+                ModelState.AddModelError("", "Your email address has not been confirmed. Please check your inbox and confirm your account before logging in.");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid email or password. Please check your credentials and try again.");
+            }
+
             return View(model);
         }
 
