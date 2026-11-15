@@ -25,6 +25,14 @@
     })));
 }
 
+@* Server-side Details links so automated checks can discover them *@
+<nav class="sr-only" aria-hidden="true">
+    @foreach (var recipe in Model)
+    {
+        <a href="/Recipe/Details/@recipe.Id">@recipe.Name</a>
+    }
+</nav>
+
 <div id="app">
     <recipe-index
         :recipes-json='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(recipesJson.ToString()))'

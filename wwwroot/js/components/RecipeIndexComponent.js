@@ -127,14 +127,10 @@ export default {
                         <q-separator />
 
                         <q-card-actions align="around">
-                            <q-btn
-                                flat
-                                dense
-                                color="primary"
-                                label="Details"
-                                icon="visibility"
-                                @click="navigateTo('/Recipe/Details/' + recipe.id)"
-                            />
+                            <a :href="'/Recipe/Details/' + recipe.id" class="q-btn q-btn--flat q-btn--dense">
+                                <q-icon name="visibility" size="sm" class="q-mr-xs" />
+                                Details
+                            </a>
                             <q-btn
                                 v-if="canEdit"
                                 flat
