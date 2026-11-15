@@ -67,7 +67,10 @@
         {
             <div class="empty-list">
                 <p>No ingredients listed for this recipe.</p>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit this recipe to add ingredients</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit this recipe to add ingredients</a>
+                }
             </div>
         }
     </div>
@@ -89,7 +92,10 @@
         {
             <div class="empty-list">
                 <p>No instructions listed for this recipe.</p>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit this recipe to add instructions</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit this recipe to add instructions</a>
+                }
             </div>
         }
     </div>

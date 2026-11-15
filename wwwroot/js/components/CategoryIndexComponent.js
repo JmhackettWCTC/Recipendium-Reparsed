@@ -11,6 +11,7 @@ export default {
                     <q-icon name="category" size="64px" color="grey-5" />
                     <p class="text-body1 q-mt-md">No categories found.</p>
                     <q-btn
+                        v-if="canEdit"
                         color="primary"
                         label="Add a Category"
                         icon="add"
@@ -36,6 +37,7 @@ export default {
 
                         <q-card-actions align="right">
                             <q-btn
+                                v-if="canEdit"
                                 flat
                                 dense
                                 color="secondary"
@@ -44,6 +46,7 @@ export default {
                                 @click="navigateTo('/Category/Edit/' + category.id)"
                             />
                             <q-btn
+                                v-if="canEdit"
                                 flat
                                 dense
                                 color="negative"
@@ -58,6 +61,7 @@ export default {
 
             <!-- Add New Category button -->
             <q-btn
+                v-if="canEdit"
                 unelevated
                 color="primary"
                 label="Add New Category"
@@ -68,7 +72,8 @@ export default {
         </div>
     `,
     props: {
-        categoriesJson: { type: String, required: true }
+        categoriesJson: { type: String, required: true },
+        canEdit: { type: Boolean, default: false }
     },
     data() {
         return {

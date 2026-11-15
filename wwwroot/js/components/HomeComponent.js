@@ -23,6 +23,7 @@ export default {
                         @click="navigateTo(recipesUrl)"
                     />
                     <q-btn
+                        v-if="canEdit"
                         color="positive"
                         label="Add New Recipe"
                         icon="add_circle"
@@ -102,7 +103,8 @@ export default {
         </div>
     `,
     props: {
-        featuredRecipes: { type: String, default: '[]' }
+        featuredRecipes: { type: String, default: '[]' },
+        canEdit: { type: Boolean, default: false }
     },
     data() {
         return {

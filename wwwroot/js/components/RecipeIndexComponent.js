@@ -44,7 +44,7 @@ export default {
                             @update:model-value="onFilterChange"
                         />
                     </div>
-                    <div class="col-12 col-md-1">
+                    <div class="col-12 col-md-1" v-if="canEdit">
                         <div class="text-right">
                             <q-btn
                                 color="primary"
@@ -68,6 +68,7 @@ export default {
                     <q-icon name="restaurant_menu" size="64px" color="grey-5" />
                     <p class="text-body1 q-mt-md">{{ noRecipesText }}</p>
                     <q-btn
+                        v-if="canEdit"
                         color="primary"
                         label="Add a Recipe"
                         icon="add"
@@ -135,6 +136,7 @@ export default {
                                 @click="navigateTo('/Recipe/Details/' + recipe.id)"
                             />
                             <q-btn
+                                v-if="canEdit"
                                 flat
                                 dense
                                 color="secondary"
@@ -143,6 +145,7 @@ export default {
                                 @click="navigateTo('/Recipe/Edit/' + recipe.id)"
                             />
                             <q-btn
+                                v-if="canEdit"
                                 flat
                                 dense
                                 color="negative"
@@ -161,7 +164,8 @@ export default {
         categoriesJson: { type: String, required: true },
         currentCategory: { type: String, default: '' },
         currentSort: { type: String, default: 'nameAsc' },
-        currentSearch: { type: String, default: '' }
+        currentSearch: { type: String, default: '' },
+        canEdit: { type: Boolean, default: false }
     },
     data() {
         return {

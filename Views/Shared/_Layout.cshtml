@@ -22,13 +22,16 @@
                 <ul>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Recipe" asp-action="Index">Recipes</a></li>
-                    <li class="nav-dropdown">
-                        <button type="button" class="dropdown-toggle" aria-expanded="false">Add ▾</button>
-                        <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Recipe" asp-action="Create">Add Recipe</a></li>
-                            <li><a asp-area="" asp-controller="Category" asp-action="Create">Add Category</a></li>
-                        </ul>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-dropdown">
+                            <button type="button" class="dropdown-toggle" aria-expanded="false">Add ▾</button>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Recipe" asp-action="Create">Add Recipe</a></li>
+                                <li><a asp-area="" asp-controller="Category" asp-action="Create">Add Category</a></li>
+                            </ul>
+                        </li>
+                    }
                     <li><partial name="_LoginPartial" /></li>
                 </ul>
             </nav>

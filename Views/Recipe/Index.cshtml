@@ -32,6 +32,7 @@
         current-category='@(currentCategory ?? "")'
         current-sort='@(currentSort ?? "nameAsc")'
         current-search='@(currentSearch ?? "")'
+        :can-edit='@(User.IsInRole("Admin") ? "true" : "false")'
     ></recipe-index>
 </div>
 

@@ -4,7 +4,7 @@
 }
 
 <div id="app">
-    <home-page featured-recipes="@featuredRecipes"></home-page>
+    <home-page featured-recipes="@featuredRecipes" :can-edit='@(User.IsInRole("Admin") ? "true" : "false")'></home-page>
 </div>
 
 @section Scripts {
