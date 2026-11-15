@@ -10,7 +10,7 @@ namespace Recipendium_Reparsed.Controllers;
 /// <summary>
 /// Handles all category-related operations including listing, creating, editing, and deleting categories.
 /// </summary>
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class CategoryController : Controller
 {
     private readonly RecipeDbContext _context;

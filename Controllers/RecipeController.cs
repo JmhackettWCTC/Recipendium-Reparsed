@@ -10,7 +10,7 @@ namespace Recipendium_Reparsed.Controllers;
 /// <summary>
 /// Handles all recipe-related operations including listing, creating, editing, and deleting recipes.
 /// </summary>
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class RecipeController : Controller
 {
     private readonly RecipeDbContext _context;
