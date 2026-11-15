@@ -104,5 +104,11 @@ namespace Recipendium_Reparsed.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        // GET: Account/AccessDenied
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
