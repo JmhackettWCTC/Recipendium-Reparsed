@@ -71,6 +71,7 @@ public class RecipesApiController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<RecipeDto>> Post([FromBody] CreateRecipeDto dto)
     {
+
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -107,6 +108,7 @@ public class RecipesApiController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
+
         var recipe = await _context.Recipes.FindAsync(id);
         if (recipe == null)
         {

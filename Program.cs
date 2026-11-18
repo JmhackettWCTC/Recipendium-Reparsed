@@ -15,6 +15,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<RecipeDbContext>()
     .AddDefaultTokenProviders();
 
+
 var app = builder.Build();
 
 // Seed Admin role and assign it to the configured email
@@ -100,8 +101,11 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-// Handle status codes like 404 by redirecting to a friendly page
-app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+// Handle status codes like 404 by redirecting to a friendly page (skip API requests so they return proper JSON errors)
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api"), appBuilder =>
+{
+    appBuilder.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -114,12 +118,12 @@ app.MapStaticAssets();
 
 app.MapControllers();
 
+// Minimal API endpoint: returns the total recipe count as JSON
+app.MapGet("/api/recipes/count", async (RecipeDbContext db) => await db.Recipes.CountAsync());
+
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
-// Minimal API endpoint: returns the total recipe count as JSON
-app.MapGet("/api/recipes/count", async (RecipeDbContext db) => await db.Recipes.CountAsync());
 
 app.Run();

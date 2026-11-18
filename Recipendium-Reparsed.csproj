@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="AspNetCore.SassCompiler" Version="1.105.1" />
+      <PackageReference Include="Dapper" Version="2.1.35" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
