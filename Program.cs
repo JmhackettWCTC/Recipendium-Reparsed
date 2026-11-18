@@ -117,5 +117,7 @@ app.MapControllerRoute(
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Minimal API endpoint: returns the total recipe count as JSON
+app.MapGet("/api/recipes/count", async (RecipeDbContext db) => await db.Recipes.CountAsync());
 
 app.Run();
