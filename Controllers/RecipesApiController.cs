@@ -12,7 +12,7 @@ namespace Recipendium_Reparsed.Controllers;
 /// Returns JSON responses using DTOs to avoid circular references.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/recipes")]
 public class RecipesApiController : ControllerBase
 {
     private readonly RecipeDbContext _context;
